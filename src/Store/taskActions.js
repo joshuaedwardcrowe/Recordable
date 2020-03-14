@@ -66,6 +66,7 @@ const updateTaskCollection = (task, fieldName, newValue) => {
     if (!existingTask) {
         task.created = new Date().toISOString()
         taskContainer.tasks.push(task);
+        updateSavedCollection(TASK_STORAGE_IDENTIFIER, taskContainer);
         return task;
     }
 
@@ -76,8 +77,6 @@ const updateTaskCollection = (task, fieldName, newValue) => {
 }
 
 const updateActionCollection = (task, fieldName, newValue) => {
-    const actionContainer = getSavedCollection(ACTION_STORAGE_IDENTIFIER);
-
     const action = {
         taskId: task.id,
         fieldName,
@@ -86,10 +85,21 @@ const updateActionCollection = (task, fieldName, newValue) => {
         actioned: new Date().toISOString()
     };
 
-    actionContainer.actions.push(action);
-    updateSavedCollection(ACTION_STORAGE_IDENTIFIER, actionContainer);
+    try {
+        const actionContainer = getSavedCollection(ACTION_STORAGE_IDENTIFIER);
 
-    return action;
+        actionContainer.actions.push(action);
+        updateSavedCollection(ACTION_STORAGE_IDENTIFIER, actionContainer);
+
+        return action;
+
+    } catch (error) {
+
+        updateSavedCollection(ACTION_STORAGE_IDENTIFIER, [action])
+
+        return action;
+
+    }
 }
 
 export const saveTask = (task, fieldName, newValue) => dispatch => {
