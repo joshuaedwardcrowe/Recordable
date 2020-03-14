@@ -6,7 +6,6 @@ import * as keys from "./keys";
 const initialState = {
     tasks: [],
     tasksLoading: false,
-    taskAdding: false,
     actions: [],
     actionsLoading: false,
     recordings: [],
@@ -24,7 +23,7 @@ export const reduce = (state = initialState, action) => {
             return {
                 ...state,
                 tasks: action.payload.tasks,
-            
+
             }
         case keys.TASK_LOAD_FAILED:
             return {
@@ -34,7 +33,7 @@ export const reduce = (state = initialState, action) => {
         case keys.TASK_ADD_PREPARE:
             return {
                 ...state,
-                taskAdding: true,
+                tasks: [...state.tasks, {}]
             }
         default:
             return state;
@@ -45,5 +44,5 @@ export const reduce = (state = initialState, action) => {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default createStore(
-    reduce, 
+    reduce,
     composeEnhancers(applyMiddleware(thunk)));

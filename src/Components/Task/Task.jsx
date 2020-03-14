@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 
-
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
@@ -16,6 +15,7 @@ import SaveIcon from "@material-ui/icons/SaveOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { TaskShape } from "../../shapes";
+import { saveTask } from "../../Store/taskActions";
 
 const useStyles = makeStyles({
     root: {
@@ -23,14 +23,13 @@ const useStyles = makeStyles({
     }
 })
 
-const Task = props => {
+const Task = ({ task, save }) => {
     const classes = useStyles();
-    const [editing, setEditing] = useState(!props.task.id);
-    const [task, setTask] = useState(props.task);
+    const [editing, setEditing] = useState(!task.id);
 
     const invertEditing = () => setEditing(!editing);
 
-    const handleChange = ({ target: { name, value } }) => setTask({ ...task, [name]: value })
+    const handleChange = ({ target: { name, value } }) => save(task, name, value)
 
     useEffect(() => {
         if (task.id) {
@@ -101,7 +100,7 @@ const Task = props => {
 
 
     return (
-        <ListItem>
+        <ListItem divider>
             {
                 editing ? renderEditing() : renderDisplay()
             }
@@ -111,8 +110,17 @@ const Task = props => {
 
 Task.propTypes = {
     task: TaskShape.isRequired,
+    save: PropTypes.func,
 };
+
+Task.defaultProps = {
+    save: () => { }
+}
 
 const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps)(Task);
+const mapDispatchToProps = dispatch => ({
+    save: (task, fieldName, newValue) => dispatch(saveTask(task, fieldName, newValue))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Task);

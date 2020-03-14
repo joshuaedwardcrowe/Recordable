@@ -2,6 +2,7 @@ import * as keys from "./keys";
 import { getSavedCollection, updateSavedCollection } from "../Helpers/storageHelper";
 
 const TASK_STORAGE_IDENTIFIER = "TODOAPP_TASKS";
+const ACTION_STORAGE_IDENTIFIER = "TODOAPP_ACTIONS";
 
 
 export const beginLoadingSavedTasks = () => ({
@@ -34,7 +35,7 @@ export const loadSavedTasks = () => dispatch => {
 
         updateSavedCollection(TASK_STORAGE_IDENTIFIER, { tasks: [] })
         dispatch(failedLoadingSavedTasks())
-        
+
     }
 
 }
@@ -43,30 +44,59 @@ export const prepareToAddTask = () => ({
     type: keys.TASK_ADD_PREPARE
 })
 
-export const completedAddingTask = task => ({
-    type: keys.TASK_ADD_COMPLETE,
+export const completedSavingTask = task => ({
+    type: keys.TASK_SAVE_COMPLETE,
     payload: { task }
 })
 
-export const failedAddingTask = task => ({
-    type: keys.TASK_ADD_FAILED,
+export const failedSavingTask = task => ({
+    type: keys.TASK_SAVE_FAILED,
     payload: { task }
 })
 
-export const addTask = task => dispatch => {
+const updateTaskCollection = (task, fieldName, newValue) => {
+    const taskContainer = getSavedCollection(TASK_STORAGE_IDENTIFIER);
+    const existingTask = taskContainer.tasks.find(({ id }) => task.id === id);
+
+    if (!existingTask) {
+        taskContainer.tasks.push(task);
+        return task;
+    }
+
+    existingTask[fieldName] = newValue;
+    updateSavedCollection(TASK_STORAGE_IDENTIFIER, taskContainer);
+
+    return existingTask;
+}
+
+const updateActionCollection = (task, fieldName, newValue) => {
+    const actionContainer = getSavedCollection(ACTION_STORAGE_IDENTIFIER);
+
+    const action = {
+        taskId: task.id,
+        fieldName,
+        oldValue: task[fieldName],
+        newValue,
+        actioned: new Date().toISOString()
+    };
+
+    actionContainer.actions.push(action);
+    updateSavedCollection(ACTION_STORAGE_IDENTIFIER, actionContainer);
+
+    return action;
+}
+
+export const saveTask = (task, fieldName, newValue) => dispatch => {
     try {
 
-        const collection = getSavedCollection(TASK_STORAGE_IDENTIFIER);
+        const savedTask = updateTaskCollection(task, fieldName, newValue);
+        const savedAction = updateActionCollection(task, fieldName, newValue);
 
-        collection.tasks.push(task);
-
-        updateSavedCollection(TASK_STORAGE_IDENTIFIER, collection);
-
-        dispatch(completedAddingTask(task));
+        dispatch(completedSavingTask(savedTask, savedAction))
 
     } catch (error) {
 
-        dispatch(failedAddingTask(task));
+        dispatch(failedSavingTask(task))
 
     }
 }

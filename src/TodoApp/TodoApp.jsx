@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles"
 
 import Grid from "@material-ui/core/Grid";
@@ -22,15 +22,13 @@ const useStyles = makeStyles({
 
 export const TodoApp = ({ loadSavedTasks }) => {
 
-    useEffect(() => loadSavedTasks(), [])
-    // // Get the initial data from local storage
-    // loadSavedTasks();
+    useEffect(() => loadSavedTasks(), [loadSavedTasks])
 
     const classes = useStyles();
     return (
         <Fragment>
             <Bar>Josh's Todo App</Bar>
-            <Grid container className={classes.root}>
+            <Grid container className={classes.root} spacing={2}>
                 <Grid item xs={8}>
                     <TaskList />
                 </Grid>
@@ -49,9 +47,7 @@ TodoApp.propTypes = {
 }
 
 TodoApp.defaultProps = {
-    loadSavedTasks: () => {
-        console.log("Default Saved Tasks");
-    }
+    loadSavedTasks: () => { }
 }
 
 const mapStateToProps = () => ({})

@@ -11,7 +11,7 @@ export const TaskShape = PropTypes.shape({
 
 export const ActionShape = PropTypes.shape({
     taskId: PropTypes.number.isRequired,
-    field: PropTypes.string.isRequired,
+    fieldName: PropTypes.string.isRequired,
     oldValue: PropTypes.string.isRequired,
     newValue: PropTypes.string.isRequired,
     actioned: PropTypes.instanceOf(Date).isRequired,

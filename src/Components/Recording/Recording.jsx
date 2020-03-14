@@ -1,21 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
-import {RecordingShape} from "../../shapes";
-import {playRecording} from "../../Store/taskActions";
+import { RecordingShape } from "../../shapes";
+import { playRecording } from "../../Store/taskActions";
 
-export const Recording = ({ recording: { id, started, ended  }, play }) => {
+export const Recording = ({ recording: { id, started, ended }, play }) => {
 
     const playRecording = () => ended
         ? play(id)

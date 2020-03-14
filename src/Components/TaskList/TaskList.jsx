@@ -13,13 +13,14 @@ import Task from "../Task/Task";
 import { TaskShape } from "../../shapes";
 import { prepareToAddTask } from "../../Store/taskActions";
 
-const TaskList = ({ tasks }) => (
+const TaskList = ({ tasks, addTask }) => (
     <Paper elevation={5}>
         <ListSubheader>
             Your Tasks
             <ListItemSecondaryAction>
                 <IconButton
                     edge="end"
+                    onClick={addTask}
                 >
                     <AddIcon />
                 </IconButton>
@@ -28,13 +29,13 @@ const TaskList = ({ tasks }) => (
         <Divider />
         {
             tasks
-            .filter(task => !task.deleted)
-            .sort((a, b) => a.created < b.created)
-            .map(task => (
-                <Task
-                    key={task.id}
-                    task={task}
-                />))
+                .filter(task => !task.deleted)
+                .sort((a, b) => a.created < b.created)
+                .map(task => (
+                    <Task
+                        key={task.id}
+                        task={task}
+                    />))
         }
     </Paper>
 );
@@ -45,7 +46,7 @@ TaskList.propTypes = {
 };
 
 TaskList.defaultProps = {
-    addTask: () => {}
+    addTask: () => { }
 }
 
 const mapStateToProps = ({ tasks }) => ({ tasks });
