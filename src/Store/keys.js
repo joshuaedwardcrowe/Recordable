@@ -1,0 +1,10 @@
+export const TASK_LOAD = "TASK/LOAD";
+export const TASK_LOAD_FAILED = "TASK/LOAD_FAILED";
+export const TASK_LOAD_COMPLETE = "TASK/LOADED_COMPLETE";
+export const TASK_SAVE = "TASK/SAVE";
+export const TASK_SAVE_ALL = "TASK/SAVE_ALL"
+export const TASK_MARK = "TASK/MARK";
+export const TASK_UNMARK = "TASK/UNMARK";
+export const RECORDING_MARK = "RECORDING/MARK";
+export const RECORDING_UNMARK = "RECORDING/UNMARK";
+export const RECORDING_PLAY = "RECORDING/PLAY";
