@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import { makeStyles } from "@material-ui/styles"
@@ -22,8 +22,9 @@ const useStyles = makeStyles({
 
 export const TodoApp = ({ loadSavedTasks }) => {
 
-    // Get the initial data from local storage
-    loadSavedTasks();
+    useEffect(() => loadSavedTasks(), [])
+    // // Get the initial data from local storage
+    // loadSavedTasks();
 
     const classes = useStyles();
     return (

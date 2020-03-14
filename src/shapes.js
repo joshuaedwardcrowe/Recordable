@@ -6,7 +6,6 @@ export const TaskShape = PropTypes.shape({
     description: PropTypes.string.isRequired,
     created: PropTypes.string.isRequired,
     deleted: PropTypes.string.isRequired,
-    isMarked: PropTypes.bool.isRequired,
 });
 
 

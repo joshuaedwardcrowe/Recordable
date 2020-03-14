@@ -13,13 +13,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
 import {RecordingShape} from "../../shapes";
-import {markRecordingAsSelected, playRecording, unmarkRecordingAsSelected} from "../../Store/taskActions";
+import {playRecording} from "../../Store/taskActions";
 
-export const Recording = ({ recording: { id, started, ended, isMarked  }, markRecordingAsSelected, unmarkRecordingAsSelected, play }) => {
-
-    const toggleMarkedStatus = () => isMarked
-        ? markRecordingAsSelected(id)
-        : unmarkRecordingAsSelected(id);
+export const Recording = ({ recording: { id, started, ended  }, play }) => {
 
     const playRecording = () => ended
         ? play(id)
@@ -27,11 +23,6 @@ export const Recording = ({ recording: { id, started, ended, isMarked  }, markRe
 
     return (
         <ListItem>
-            <ListItemAvatar>
-                {
-                    isMarked ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />
-                }
-            </ListItemAvatar>
             <ListItemText
                 primary={`Recorded at ${started}`} // TODO: Use moment to format?
                 secondary={"test"} // TODO: get duration
@@ -47,7 +38,6 @@ export const Recording = ({ recording: { id, started, ended, isMarked  }, markRe
             <ListItemSecondaryAction>
                 <IconButton
                     edge="end"
-                    onClick={toggleMarkedStatus}
                 >
                     <DeleteIcon />
                 </IconButton>
@@ -58,16 +48,12 @@ export const Recording = ({ recording: { id, started, ended, isMarked  }, markRe
 
 Recording.propTypes = {
     recording: RecordingShape.isRequired,
-    markRecordingAsSelected: PropTypes.func.isRequired,
-    unmarkRecordingAsSelected: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-    markRecordingAsSelected: recordingId => dispatch(markRecordingAsSelected(recordingId)),
-    unmarkRecordingAsSelected: recordingId => dispatch(unmarkRecordingAsSelected(recordingId)),
     play: recordingId => dispatch(playRecording(recordingId))
 });
 

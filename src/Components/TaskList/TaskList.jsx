@@ -11,6 +11,7 @@ import Divider from "@material-ui/core/Divider";
 
 import Task from "../Task/Task";
 import { TaskShape } from "../../shapes";
+import { prepareToAddTask } from "../../Store/taskActions";
 
 const TaskList = ({ tasks }) => (
     <Paper elevation={5}>
@@ -40,8 +41,17 @@ const TaskList = ({ tasks }) => (
 
 TaskList.propTypes = {
     tasks: PropTypes.arrayOf(TaskShape).isRequired,
+    addTask: PropTypes.func,
 };
+
+TaskList.defaultProps = {
+    addTask: () => {}
+}
 
 const mapStateToProps = ({ tasks }) => ({ tasks });
 
-export default connect(mapStateToProps)(TaskList);
+const mapDispatchToProps = dispatch => ({
+    addTask: () => dispatch(prepareToAddTask()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

@@ -39,33 +39,71 @@ export const loadSavedTasks = () => dispatch => {
 
 }
 
-export const saveTask = () => dispatch => {
-    let savedTasks = window.localStorage.get(TASK_STORAGE_IDENTIFIER);
+export const prepareToAddTask = () => ({
+    type: keys.TASK_ADD_PREPARE
+})
 
-    if (savedTasks && savedTasks.length) {
+export const completedAddingTask = task => ({
+    type: keys.TASK_ADD_COMPLETE,
+    payload: { task }
+})
+
+export const failedAddingTask = task => ({
+    type: keys.TASK_ADD_FAILED,
+    payload: { task }
+})
+
+export const addTask = task => dispatch => {
+    try {
+
+        const collection = getSavedCollection(TASK_STORAGE_IDENTIFIER);
+
+        collection.tasks.push(task);
+
+        updateSavedCollection(TASK_STORAGE_IDENTIFIER, collection);
+
+        dispatch(completedAddingTask(task));
+
+    } catch (error) {
+
+        dispatch(failedAddingTask(task));
 
     }
 }
 
-export const markTaskAsSelected = taskId => ({
-    type: keys.TASK_MARK,
-    payload: { taskId }
-});
 
-export const unmarkTaskAsSelected = taskId => ({
-    type: keys.TASK_UNMARK,
-    payload: { taskId }
-});
 
-export const markRecordingAsSelected = recordingId => ({
-    type: keys.RECORDING_MARK,
-    payload: { recordingId }
-});
 
-export const unmarkRecordingAsSelected = recordingId => ({
-    type: keys.RECORDING_UNMARK,
-    payload: { recordingId }
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export const saveTask = () => dispatch => {
+//     let savedTasks = window.localStorage.get(TASK_STORAGE_IDENTIFIER);
+
+//     if (savedTasks && savedTasks.length) {
+
+//     }
+// }\
 
 export const playRecording = recordingId => ({
     type: keys.RECORDING_PLAY,

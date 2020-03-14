@@ -1,60 +1,118 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/styles";
+
 
 import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
 
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CreateIcon from "@material-ui/icons/Create";
+import SaveIcon from "@material-ui/icons/SaveOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { TaskShape } from "../../shapes";
-import { markTaskAsSelected, unmarkTaskAsSelected } from "../../Store/taskActions";
 
-const Task = ({ task: { id, name, description, created, isMarked }, markTaskAsSelected, unmarkTaskAsSelected }) => {
+const useStyles = makeStyles({
+    root: {
+        marginRight: "1.5em"
+    }
+})
 
-    const toggleMarkedStatus = () => isMarked
-        ? markTaskAsSelected(id)
-        : unmarkTaskAsSelected(id);
+const Task = props => {
+    const classes = useStyles();
+    const [editing, setEditing] = useState(!props.task.id);
+    const [task, setTask] = useState(props.task);
 
-    return (
-        <ListItem>
-            <ListItemAvatar>
-                {
-                    isMarked ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />
-                }
-            </ListItemAvatar>
+    const invertEditing = () => setEditing(!editing);
+
+    const handleChange = ({ target: { name, value } }) => setTask({ ...task, [name]: value })
+
+    useEffect(() => {
+        if (task.id) {
+            // TODO: Redux action for Save.
+        } else {
+            // TODO: redux action for insert.
+        }
+    }, [task])
+
+    const renderDisplay = () => (
+        <>
             <ListItemText
-                primary={`${name} - ${description}`}
-                secondary={created}
+                primary={`${task.name} - ${task.description}`}
+                secondary={task.created} // TODO: use humanizer to make pretty
             />
             <ListItemSecondaryAction>
                 <IconButton
+                    className={classes.root}
                     edge="end"
-                    onClick={toggleMarkedStatus}
+                    onClick={invertEditing}
+                >
+                    <CreateIcon />
+                </IconButton>
+            </ListItemSecondaryAction>
+            <ListItemSecondaryAction>
+                <IconButton
+                    edge="end"
                 >
                     <DeleteIcon />
                 </IconButton>
             </ListItemSecondaryAction>
+        </>
+    )
+
+
+
+    const renderEditing = () => (
+        <>
+            <Grid container spacing={2}>
+                <Grid item xs={5}>
+                    <TextField
+                        label="Name"
+                        value={task.name}
+                        onChange={handleChange}
+                        inputProps={{ name: "name" }}
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField
+                        label="Description"
+                        value={task.description}
+                        onChange={handleChange}
+                        inputProps={{ name: "description" }}
+                        fullWidth
+                    />
+                </Grid>
+            </Grid>
+            <ListItemSecondaryAction>
+                <IconButton
+                    edge="end"
+                >
+                    <SaveIcon />
+                </IconButton>
+            </ListItemSecondaryAction>
+        </>
+    )
+
+
+    return (
+        <ListItem>
+            {
+                editing ? renderEditing() : renderDisplay()
+            }
         </ListItem>
     );
 }
 
 Task.propTypes = {
     task: TaskShape.isRequired,
-    markTaskAsSelected: PropTypes.func.isRequired,
-    unmarkTaskAsSelected: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = dispatch => ({
-    markTaskAsSelected: taskId => dispatch(markTaskAsSelected(taskId)),
-    unmarkTaskAsSelected: taskId => dispatch(unmarkTaskAsSelected(taskId))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Task);
+export default connect(mapStateToProps)(Task);

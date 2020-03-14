@@ -6,6 +6,7 @@ import * as keys from "./keys";
 const initialState = {
     tasks: [],
     tasksLoading: false,
+    taskAdding: false,
     actions: [],
     actionsLoading: false,
     recordings: [],
@@ -29,6 +30,11 @@ export const reduce = (state = initialState, action) => {
             return {
                 ...state,
                 tasksLoading: false,
+            }
+        case keys.TASK_ADD_PREPARE:
+            return {
+                ...state,
+                taskAdding: true,
             }
         default:
             return state;
