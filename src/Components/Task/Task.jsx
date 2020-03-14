@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
@@ -10,12 +10,13 @@ import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 
+import CloseIcon from "@material-ui/icons/Close";
 import CreateIcon from "@material-ui/icons/Create";
 import SaveIcon from "@material-ui/icons/SaveOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { TaskShape } from "../../shapes";
-import { saveTask } from "../../Store/taskActions";
+import { saveTask, unprepareToAddTask } from "../../Store/taskActions";
 
 const useStyles = makeStyles({
     root: {
@@ -23,21 +24,19 @@ const useStyles = makeStyles({
     }
 })
 
-const Task = ({ task, save }) => {
+const Task = ({ task, save, unprepareToAdd }) => {
     const classes = useStyles();
-    const [editing, setEditing] = useState(!task.id);
+    const [editing, setEditing] = useState(!task.created);
 
-    const invertEditing = () => setEditing(!editing);
+    const invertEditing = () => {
+        if (!task.created) {
+            unprepareToAdd(task.id);
+        } else {
+            setEditing(!editing);
+        }
+    }
 
     const handleChange = ({ target: { name, value } }) => save(task, name, value)
-
-    useEffect(() => {
-        if (task.id) {
-            // TODO: Redux action for Save.
-        } else {
-            // TODO: redux action for insert.
-        }
-    }, [task])
 
     const renderDisplay = () => (
         <>
@@ -91,6 +90,16 @@ const Task = ({ task, save }) => {
             <ListItemSecondaryAction>
                 <IconButton
                     edge="end"
+                    className={classes.root}
+                    onClick={invertEditing}
+                >
+                    <CloseIcon />
+                </IconButton>
+            </ListItemSecondaryAction>
+            <ListItemSecondaryAction>
+                <IconButton
+                    edge="end"
+
                 >
                     <SaveIcon />
                 </IconButton>
@@ -111,16 +120,19 @@ const Task = ({ task, save }) => {
 Task.propTypes = {
     task: TaskShape.isRequired,
     save: PropTypes.func,
+    unprepareToAdd: PropTypes.func,
 };
 
 Task.defaultProps = {
-    save: () => { }
+    save: () => { },
+    unprepareToAdd: () => { }
 }
 
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-    save: (task, fieldName, newValue) => dispatch(saveTask(task, fieldName, newValue))
-});
+    save: (task, fieldName, newValue) => dispatch(saveTask(task, fieldName, newValue)),
+    unprepareToAdd: taskId => dispatch(unprepareToAddTask(taskId))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task);

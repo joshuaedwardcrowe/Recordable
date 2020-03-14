@@ -31,9 +31,16 @@ export const reduce = (state = initialState, action) => {
                 tasksLoading: false,
             }
         case keys.TASK_ADD_PREPARE:
+            const mostRecentTask = state.tasks[state.tasks.length - 1]
+
             return {
                 ...state,
-                tasks: [...state.tasks, {}]
+                tasks: [...state.tasks, { id: mostRecentTask ? mostRecentTask.id + 1 : 1 }]
+            }
+        case keys.TASK_ADD_UNPREPARE:
+            return {
+                ...state,
+                tasks: state.tasks.filter(task => task.id !== action.payload.taskId),
             }
         default:
             return state;

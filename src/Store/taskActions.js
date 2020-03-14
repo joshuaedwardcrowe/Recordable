@@ -44,6 +44,11 @@ export const prepareToAddTask = () => ({
     type: keys.TASK_ADD_PREPARE
 })
 
+export const unprepareToAddTask = taskId => ({
+    type: keys.TASK_ADD_UNPREPARE,
+    payload: { taskId }
+})
+
 export const completedSavingTask = task => ({
     type: keys.TASK_SAVE_COMPLETE,
     payload: { task }
@@ -59,6 +64,7 @@ const updateTaskCollection = (task, fieldName, newValue) => {
     const existingTask = taskContainer.tasks.find(({ id }) => task.id === id);
 
     if (!existingTask) {
+        task.created = new Date().toISOString()
         taskContainer.tasks.push(task);
         return task;
     }
