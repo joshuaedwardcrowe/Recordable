@@ -15,14 +15,20 @@ export const AuditReducer = (state = initialAuditState, action) => {
         case AuditActionTypes.AUDIT_LOAD_COMPLETE:
             return {
                 ...state,
-                tasks: action.payload.tasks,
+                audits: action.payload.audits,
 
             }
         case AuditActionTypes.AUDIT_LOAD_FAILED:
             return {
                 ...state,
-                tasksLoading: false,
+                auditsLoading: false,
             }
+        case AuditActionTypes.AUDIT_SAVE_COMPLETE: {
+            return {
+                ...state,
+                audits: [...state.audits, action.payload.audit]
+            }
+        }
         default:
             return state;
     }

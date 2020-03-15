@@ -9,7 +9,7 @@ export const TaskShape = PropTypes.shape({
 });
 
 
-export const ActionShape = PropTypes.shape({
+export const AuditShape = PropTypes.shape({
     taskId: PropTypes.number.isRequired,
     fieldName: PropTypes.string.isRequired,
     oldValue: PropTypes.string.isRequired,

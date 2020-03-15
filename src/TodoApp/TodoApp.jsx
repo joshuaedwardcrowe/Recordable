@@ -9,15 +9,15 @@ import Divider from "@material-ui/core/Divider";
 import Bar from "../Components/Bar/Bar";
 import TaskList from "../Components/TaskList/TaskList";
 import RecordingList from "../Components/RecordingList/RecordingList";
-import ActionList from "../Components/ActionList/ActionList";
+import AuditList from "../Components/AuditList/AuditList";
 
 import { loadSavedTasks } from "../Store/taskActions";
 import { loadSavedAudits } from "../Store/Audit/AuditAction";
 
-
-const useStyles = makeStyles({
+const useContainerStyles = makeStyles({
     root: {
-        padding: "5em"
+        padding: "5em",
+        maxHeight: "100vh"
     }
 })
 
@@ -28,18 +28,18 @@ export const TodoApp = ({ loadSavedTasks, loadSavedAudits }) => {
         loadSavedAudits()
     }, [loadSavedTasks, loadSavedAudits])
 
-    const classes = useStyles();
+    const containerClasses = useContainerStyles();
     return (
         <Fragment>
             <Bar>Josh's Todo App</Bar>
-            <Grid container className={classes.root} spacing={2}>
+            <Grid container className={containerClasses.root} spacing={2}>
                 <Grid item xs={8}>
                     <TaskList />
                 </Grid>
                 <Grid item xs={4}>
                     <RecordingList />
                     <Divider />
-                    <ActionList />
+                    <AuditList />
                 </Grid>
             </Grid>
         </Fragment>
