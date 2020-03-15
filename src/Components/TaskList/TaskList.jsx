@@ -7,16 +7,15 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
-import Divider from "@material-ui/core/Divider";
 
 import Task from "../Task/Task";
 import { TaskShape } from "../../shapes";
 import { prepareToAddTask } from "../../Store/taskActions";
 
 const TaskList = ({ tasks, addTask }) => (
-    <Paper elevation={5}>
+    <>
         <ListSubheader>
-            Your Tasks
+            Your Tasks ({tasks.length})
             <ListItemSecondaryAction>
                 <IconButton
                     edge="end"
@@ -26,18 +25,19 @@ const TaskList = ({ tasks, addTask }) => (
                 </IconButton>
             </ListItemSecondaryAction>
         </ListSubheader>
-        <Divider />
-        {
-            tasks
-                .filter(task => !task.deleted)
-                .sort((a, b) => a.created < b.created)
-                .map(task => (
-                    <Task
-                        key={task.id}
-                        task={task}
-                    />))
-        }
-    </Paper>
+        <Paper elevation={5}>
+            {
+                tasks
+                    .filter(task => !task.deleted)
+                    .sort((a, b) => a.created < b.created)
+                    .map(task => (
+                        <Task
+                            key={task.id}
+                            task={task}
+                        />))
+            }
+        </Paper>
+    </>
 );
 
 TaskList.propTypes = {
