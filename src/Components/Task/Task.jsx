@@ -12,7 +12,6 @@ import Grid from "@material-ui/core/Grid";
 
 import CloseIcon from "@material-ui/icons/Close";
 import CreateIcon from "@material-ui/icons/Create";
-import SaveIcon from "@material-ui/icons/SaveOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { TaskShape } from "../../shapes";
@@ -90,18 +89,9 @@ const Task = ({ task, save, unprepareToAdd }) => {
             <ListItemSecondaryAction>
                 <IconButton
                     edge="end"
-                    className={classes.root}
                     onClick={invertEditing}
                 >
                     <CloseIcon />
-                </IconButton>
-            </ListItemSecondaryAction>
-            <ListItemSecondaryAction>
-                <IconButton
-                    edge="end"
-
-                >
-                    <SaveIcon />
                 </IconButton>
             </ListItemSecondaryAction>
         </>

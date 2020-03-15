@@ -42,6 +42,17 @@ export const reduce = (state = initialTaskState, action) => {
                 ...state,
                 tasks: state.tasks.filter(task => task.id !== action.payload.taskId),
             }
+        case keys.TASK_SAVE_COMPLETE:
+            const currentTasks = Array.from(state.tasks);
+            const currentTask = currentTasks.find(task => task.id === action.payload.task.id);
+            const indexOf = currentTasks.indexOf(currentTask);
+
+            currentTasks.splice(indexOf, 1, action.payload.task)
+
+            return {
+                ...state,
+                tasks: currentTasks
+            }
         default:
             return state;
     }

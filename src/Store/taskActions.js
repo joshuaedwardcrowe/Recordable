@@ -68,23 +68,23 @@ const updateTaskCollection = (task, fieldName, newValue) => {
         task[fieldName] = newValue;
         taskContainer.tasks.push(task);
         updateSavedCollection(TASK_STORAGE_IDENTIFIER, taskContainer);
-        return;
+        return task;
     }
 
     existingTask[fieldName] = newValue;
     updateSavedCollection(TASK_STORAGE_IDENTIFIER, taskContainer);
 
-    return;
+    return existingTask;
 }
 
 export const saveTask = (task, fieldName, newValue) => dispatch => {
     try {
 
-        updateTaskCollection(task, fieldName, newValue);
+        const savedTask = updateTaskCollection(task, fieldName, newValue);
 
         dispatch(saveAudit(task, fieldName, newValue))
 
-        dispatch(completedSavingTask(task))
+        dispatch(completedSavingTask(savedTask))
 
     } catch (error) {
 
