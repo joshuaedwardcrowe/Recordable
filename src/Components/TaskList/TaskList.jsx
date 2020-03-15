@@ -41,15 +41,16 @@ const TaskList = ({ tasks, addTask }) => (
 );
 
 TaskList.propTypes = {
-    tasks: PropTypes.arrayOf(TaskShape).isRequired,
+    tasks: PropTypes.arrayOf(TaskShape),
     addTask: PropTypes.func,
 };
 
 TaskList.defaultProps = {
+    tasks: [],
     addTask: () => { }
 }
 
-const mapStateToProps = ({ tasks }) => ({ tasks });
+const mapStateToProps = ({ taskState: { tasks } }) => ({ tasks })
 
 const mapDispatchToProps = dispatch => ({
     addTask: () => dispatch(prepareToAddTask()),

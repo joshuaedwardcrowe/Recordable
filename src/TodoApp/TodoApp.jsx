@@ -12,6 +12,7 @@ import RecordingList from "../Components/RecordingList/RecordingList";
 import ActionList from "../Components/ActionList/ActionList";
 
 import { loadSavedTasks } from "../Store/taskActions";
+import { loadSavedAudits } from "../Store/Audit/AuditAction";
 
 
 const useStyles = makeStyles({
@@ -20,9 +21,12 @@ const useStyles = makeStyles({
     }
 })
 
-export const TodoApp = ({ loadSavedTasks }) => {
+export const TodoApp = ({ loadSavedTasks, loadSavedAudits }) => {
 
-    useEffect(() => loadSavedTasks(), [loadSavedTasks])
+    useEffect(() => {
+        loadSavedTasks()
+        loadSavedAudits()
+    }, [loadSavedTasks, loadSavedAudits])
 
     const classes = useStyles();
     return (
@@ -44,16 +48,19 @@ export const TodoApp = ({ loadSavedTasks }) => {
 
 TodoApp.propTypes = {
     loadSavedTasks: PropTypes.func,
+    loadSavedAudits: PropTypes.func,
 }
 
 TodoApp.defaultProps = {
-    loadSavedTasks: () => { }
+    loadSavedTasks: () => { },
+    loadSavedAudits: () => { }
 }
 
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = dispatch => ({
-    loadSavedTasks: () => dispatch(loadSavedTasks())
+    loadSavedTasks: () => dispatch(loadSavedTasks()),
+    loadSavedAudits: () => dispatch(loadSavedAudits())
 })
 
 

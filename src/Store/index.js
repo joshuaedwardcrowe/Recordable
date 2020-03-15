@@ -1,18 +1,18 @@
-import { createStore, applyMiddleware, compose } from "redux"
+import { createStore, combineReducers, applyMiddleware, compose } from "redux"
 import thunk from "redux-thunk";
 
 import * as keys from "./keys";
+import AuditReducer from "./Audit/AuditReducer";
 
-const initialState = {
+const initialTaskState = {
     tasks: [],
     tasksLoading: false,
-    actions: [],
-    actionsLoading: false,
     recordings: [],
     recordingsLoaded: false,
 };
 
-export const reduce = (state = initialState, action) => {
+// TODO: Abstract
+export const reduce = (state = initialTaskState, action) => {
     switch (action.type) {
         case keys.TASK_LOAD:
             return {
@@ -50,6 +50,8 @@ export const reduce = (state = initialState, action) => {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const combinedReducers = combineReducers({ taskState: reduce, auditState: AuditReducer })
+
 export default createStore(
-    reduce,
-    composeEnhancers(applyMiddleware(thunk)));
+    combinedReducers,
+    composeEnhancers(applyMiddleware(thunk)))

@@ -1,8 +1,8 @@
 import * as keys from "./keys";
 import { getSavedCollection, updateSavedCollection } from "../Helpers/storageHelper";
+import { saveAudit } from "./Audit/AuditAction";
 
 const TASK_STORAGE_IDENTIFIER = "TODOAPP_TASKS";
-const ACTION_STORAGE_IDENTIFIER = "TODOAPP_ACTIONS";
 
 
 export const beginLoadingSavedTasks = () => ({
@@ -65,50 +65,26 @@ const updateTaskCollection = (task, fieldName, newValue) => {
 
     if (!existingTask) {
         task.created = new Date().toISOString()
+        task[fieldName] = newValue;
         taskContainer.tasks.push(task);
         updateSavedCollection(TASK_STORAGE_IDENTIFIER, taskContainer);
-        return task;
+        return;
     }
 
     existingTask[fieldName] = newValue;
     updateSavedCollection(TASK_STORAGE_IDENTIFIER, taskContainer);
 
-    return existingTask;
-}
-
-const updateActionCollection = (task, fieldName, newValue) => {
-    const action = {
-        taskId: task.id,
-        fieldName,
-        oldValue: task[fieldName],
-        newValue,
-        actioned: new Date().toISOString()
-    };
-
-    try {
-        const actionContainer = getSavedCollection(ACTION_STORAGE_IDENTIFIER);
-
-        actionContainer.actions.push(action);
-        updateSavedCollection(ACTION_STORAGE_IDENTIFIER, actionContainer);
-
-        return action;
-
-    } catch (error) {
-
-        updateSavedCollection(ACTION_STORAGE_IDENTIFIER, [action])
-
-        return action;
-
-    }
+    return;
 }
 
 export const saveTask = (task, fieldName, newValue) => dispatch => {
     try {
 
-        const savedTask = updateTaskCollection(task, fieldName, newValue);
-        const savedAction = updateActionCollection(task, fieldName, newValue);
+        updateTaskCollection(task, fieldName, newValue);
 
-        dispatch(completedSavingTask(savedTask, savedAction))
+        dispatch(saveAudit(task, fieldName, newValue))
+
+        dispatch(completedSavingTask(task))
 
     } catch (error) {
 
