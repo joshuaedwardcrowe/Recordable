@@ -5,16 +5,16 @@ import { saveAudit } from "../Audit/AuditAction";
 const TASK_STORAGE_IDENTIFIER = "TODOAPP_TASKS";
 
 
-export const beginLoadingSavedTasks = () => ({
+const beginLoadingSavedTasks = () => ({
     type: TaskActionTypes.TASK_LOAD
 })
 
-export const completedLoadingSavedTasks = (tasks) => ({
+const completedLoadingSavedTasks = (tasks) => ({
     type: TaskActionTypes.TASK_LOAD_COMPLETE,
     payload: { tasks },
 });
 
-export const failedLoadingSavedTasks = () => ({
+const failedLoadingSavedTasks = () => ({
     type: TaskActionTypes.TASK_LOAD_FAILED
 })
 
@@ -39,6 +39,10 @@ export const loadSavedTasks = () => dispatch => {
     }
 
 }
+
+export const unloadDisplayingTasks = () => ({
+    type: TaskActionTypes.TASK_UNLOAD
+})
 
 export const prepareToAddTask = () => ({
     type: TaskActionTypes.TASK_ADD_PREPARE

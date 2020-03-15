@@ -13,9 +13,9 @@ import StopIcon from "@material-ui/icons/Stop";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { RecordingShape } from "../../shapes";
-import { stopRecording, deleteRecording } from "../../Store/Recording/RecordingAction"
+import { stopRecording, playRecording, deleteRecording } from "../../Store/Recording/RecordingAction"
 
-const useStyles = makeStyles({
+const usePrimaryListItemActionStyles = makeStyles({
     root: {
         marginRight: "1.5em"
     }
@@ -31,9 +31,9 @@ const FormatRecordingDuration = (time) => {
     return `${hours}:${`0${minutes}`.slice(-2)}:${`0${seconds}`.slice(-2)}`;
 };
 
-export const Recording = ({ recording, stopThisRecording, deleteThisRecording }) => {
+export const Recording = ({ recording, stopThisRecording, playThisRecording, deleteThisRecording }) => {
 
-    const classes = useStyles();
+    const primaryListItemActionClasses = usePrimaryListItemActionStyles();
 
     const initialMilliseconds = recording.ended
         ? moment(recording.ended).diff(recording.started, "milliseconds")
@@ -41,11 +41,9 @@ export const Recording = ({ recording, stopThisRecording, deleteThisRecording })
 
     const [millisecondCounter, setMillisecondCounter] = useState(initialMilliseconds)
 
-    const stopThis = () => stopThisRecording(recording);
-
+    const stopThis = () => stopThisRecording(recording); // TOOD: CAn this be recording ID?
+    const playThis = () => playThisRecording(recording.id);
     const deleteThis = () => deleteThisRecording(recording.id);
-
-    const stopPlaying = () => { }
 
     useEffect(() => {
         if (!recording.ended) {
@@ -66,8 +64,8 @@ export const Recording = ({ recording, stopThisRecording, deleteThisRecording })
                 <ListItemSecondaryAction>
                     <IconButton
                         edge="end"
-                        className={classes.root}
-                        onClick={recording.ended ? stopPlaying : stopThis}
+                        className={primaryListItemActionClasses.root}
+                        onClick={recording.ended ? playThis : stopThis}
                     >
                         {recording.ended ? <PlayArrowIcon /> : <StopIcon />}
                     </IconButton>
@@ -87,19 +85,24 @@ export const Recording = ({ recording, stopThisRecording, deleteThisRecording })
 
 Recording.propTypes = {
     recording: RecordingShape.isRequired,
+    recordingActiveId: PropTypes.number,
     stopThisRecording: PropTypes.func,
+    playThisRecording: PropTypes.func,
     deleteThisRecording: PropTypes.func,
 };
 
 Recording.defaultProps = {
+    recordingActiveId: null,
     stopThisRecording: () => { },
+    playThisRecording: () => { },
     deleteThisRecording: () => { },
 }
 
-const mapStateToProps = ({ recordingState: { recordings } }) => ({ recordings });
+const mapStateToProps = ({ recordingState: { recordingActiveId } }) => ({ recordingActiveId })
 
 const mapDispatchToProps = dispatch => ({
     stopThisRecording: recordingId => dispatch(stopRecording(recordingId)),
+    playThisRecording: recordingId => dispatch(playRecording(recordingId)),
     deleteThisRecording: recordingId => dispatch(deleteRecording(recordingId))
 });
 

@@ -23,6 +23,11 @@ export default (state = initialTaskState, action) => {
                 ...state,
                 tasksLoading: false,
             }
+        case TaskActionTypes.TASK_UNLOAD:
+            return {
+                ...state,
+                tasks: []
+            }
         case TaskActionTypes.TASK_ADD_PREPARE:
             const mostRecentTask = state.tasks[state.tasks.length - 1]
 

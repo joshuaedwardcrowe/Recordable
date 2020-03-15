@@ -119,6 +119,10 @@ Task.propTypes = {
 };
 
 Task.defaultProps = {
+    task: {
+        name: "<Missing Name>",
+        description: "<Missing Description>"
+    },
     saveThisTask: () => { },
     unprepareThisTask: () => { },
     deleteThisTask: () => { },
