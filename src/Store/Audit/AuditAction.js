@@ -42,7 +42,7 @@ const updateAuditCollection = (task, fieldName, newValue) => {
     const audit = {
         taskId: task.id,
         fieldName,
-        oldValue: task[fieldName] ? task[fieldName] : "",
+        oldValue: task[fieldName],
         newValue,
         actioned: new Date().toISOString()
     };
