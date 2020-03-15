@@ -7,4 +7,3 @@ export const TASK_SAVE_FAILED = "TASK/SAVE/FAILED"
 export const TASK_SAVE_COMPLETE = "TASK/SAVE/COMPLETE";
 export const TASK_SAVE = "TASK/SAVE";
 export const TASK_SAVE_ALL = "TASK/SAVE_ALL"
-export const RECORDING_PLAY = "RECORDING/PLAY";

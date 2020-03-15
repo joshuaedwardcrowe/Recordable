@@ -36,3 +36,45 @@ export const loadSavedRecordings = () => dispatch => {
 
     }
 }
+
+const addRecordingToCollection = recording => {
+    const recordingContainer = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);
+    const existingRecording = recordingContainer.recordings.find(({ id }) => recording.id === id);
+
+    if (!existingRecording) {
+        recording.ended = new Date().toISOString();
+        recordingContainer.recordings.push(recording);
+        updateSavedCollection(RECORDING_STORAGE_IDENTIFIER, recordingContainer);
+        return recording;
+    }
+}
+
+export const startRecording = () => ({
+    type: RecordingActionTypes.RECORDING_START
+})
+
+export const completedSavingRecording = recording => ({
+    type: RecordingActionTypes.RECORDING_SAVE_COMPLETE,
+    payload: { recording }
+})
+
+export const failedSavingRecording = recording => ({
+    type: RecordingActionTypes.RECORDING_SAVE_FAILED,
+    payload: { recording }
+})
+
+export const stopRecording = recording => dispatch => {
+    try {
+
+        const addedRecording = addRecordingToCollection(recording);
+
+        if (addedRecording !== null) {
+            dispatch(completedSavingRecording())
+        } else {
+            dispatch(failedSavingRecording())
+        }
+
+    } catch (error) {
+        dispatch(failedSavingRecording())
+    }
+}

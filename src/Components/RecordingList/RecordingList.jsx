@@ -11,6 +11,7 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import Paper from "@material-ui/core/Paper";
 
 import Recording from "../Recording/Recording";
+import { startRecording } from "../../Store/Recording/RecordingAction"
 import { RecordingShape } from "../../shapes";
 
 const useStyles = makeStyles({
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
     }
 })
 
-const RecordingList = ({ recordings }) => {
+const RecordingList = ({ recordings, startNew }) => {
     const classes = useStyles();
     return (
         <>
@@ -28,6 +29,7 @@ const RecordingList = ({ recordings }) => {
                 <ListItemSecondaryAction>
                     <IconButton
                         edge="end"
+                        onClick={startNew}
                     >
                         <PlayArrowIcon />
                     </IconButton>
@@ -38,6 +40,7 @@ const RecordingList = ({ recordings }) => {
                     {
                         recordings
                             .filter(task => !task.deleted)
+                            .reverse()
                             .map(recording => (<Recording key={recording.id} recording={recording} />))
                     }
                 </Scrollbars>
@@ -52,8 +55,13 @@ RecordingList.propTypes = {
 
 RecordingList.defaultProps = {
     recordings: [],
+    startNew: () => { }
 }
 
 const mapStateToProps = ({ recordingState: { recordings } }) => ({ recordings });
 
-export default connect(mapStateToProps)(RecordingList);
+const mapDispatchToProps = dispatch => ({
+    startNew: () => dispatch(startRecording())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecordingList);
