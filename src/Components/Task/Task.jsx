@@ -16,7 +16,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { TaskShape } from "../../shapes";
-import { saveTask, unprepareToAddTask } from "../../Store/taskActions";
+import { saveTask, unprepareToAddTask } from "../../Store/Task/TaskAction";
 
 const useStyles = makeStyles({
     root: {

@@ -1,21 +1,21 @@
-import * as keys from "./keys";
-import { getSavedCollection, updateSavedCollection } from "../Helpers/storageHelper";
-import { saveAudit } from "./Audit/AuditAction";
+import * as TaskActionTypes from "./TaskActionTypes";
+import { getSavedCollection, updateSavedCollection } from "../../Helpers/storageHelper";
+import { saveAudit } from "../Audit/AuditAction";
 
 const TASK_STORAGE_IDENTIFIER = "TODOAPP_TASKS";
 
 
 export const beginLoadingSavedTasks = () => ({
-    type: keys.TASK_LOAD
+    type: TaskActionTypes.TASK_LOAD
 })
 
 export const completedLoadingSavedTasks = (tasks) => ({
-    type: keys.TASK_LOAD_COMPLETE,
+    type: TaskActionTypes.TASK_LOAD_COMPLETE,
     payload: { tasks },
 });
 
 export const failedLoadingSavedTasks = () => ({
-    type: keys.TASK_LOAD_FAILED
+    type: TaskActionTypes.TASK_LOAD_FAILED
 })
 
 export const loadSavedTasks = () => dispatch => {
@@ -41,21 +41,21 @@ export const loadSavedTasks = () => dispatch => {
 }
 
 export const prepareToAddTask = () => ({
-    type: keys.TASK_ADD_PREPARE
+    type: TaskActionTypes.TASK_ADD_PREPARE
 })
 
 export const unprepareToAddTask = taskId => ({
-    type: keys.TASK_ADD_UNPREPARE,
+    type: TaskActionTypes.TASK_ADD_UNPREPARE,
     payload: { taskId }
 })
 
 export const completedSavingTask = task => ({
-    type: keys.TASK_SAVE_COMPLETE,
+    type: TaskActionTypes.TASK_SAVE_COMPLETE,
     payload: { task }
 })
 
 export const failedSavingTask = task => ({
-    type: keys.TASK_SAVE_FAILED,
+    type: TaskActionTypes.TASK_SAVE_FAILED,
     payload: { task }
 })
 
