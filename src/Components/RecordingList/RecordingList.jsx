@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Scrollbars } from "react-custom-scrollbars";
 import { makeStyles } from "@material-ui/styles"
 
 import ListSubheader from "@material-ui/core/ListSubheader";
@@ -33,29 +34,26 @@ const RecordingList = ({ recordings }) => {
                 </ListItemSecondaryAction>
             </ListSubheader>
             <Paper elevation={5} className={classes.root}>
-                {
-                    recordings
-                        .filter(task => !task.deleted)
-                        .sort((a, b) => a.started < b.started)
-                        .map(recording => (
-                            <Recording
-                                key={recording.id}
-                                recordings={recording}
-                            />))
-                }
+                <Scrollbars autoHide>
+                    {
+                        recordings
+                            .filter(task => !task.deleted)
+                            .map(recording => (<Recording key={recording.id} recording={recording} />))
+                    }
+                </Scrollbars>
             </Paper>
         </>
     );
 }
 
 RecordingList.propTypes = {
-    recordings: PropTypes.arrayOf(RecordingShape).isRequired,
+    recordings: PropTypes.arrayOf(RecordingShape),
 };
 
 RecordingList.defaultProps = {
     recordings: [],
 }
 
-const mapStateToProps = ({ recordings }) => ({ recordings });
+const mapStateToProps = ({ recordingState: { recordings } }) => ({ recordings });
 
 export default connect(mapStateToProps)(RecordingList);

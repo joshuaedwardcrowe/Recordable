@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 
 import * as keys from "./keys";
 import AuditReducer from "./Audit/AuditReducer";
+import RecordingReducer from "./Recording/RecordingReducer";
 
 const initialTaskState = {
     tasks: [],
@@ -61,7 +62,11 @@ export const reduce = (state = initialTaskState, action) => {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const combinedReducers = combineReducers({ taskState: reduce, auditState: AuditReducer })
+const combinedReducers = combineReducers({
+    taskState: reduce,
+    auditState: AuditReducer,
+    recordingState: RecordingReducer
+})
 
 export default createStore(
     combinedReducers,

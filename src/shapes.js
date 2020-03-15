@@ -14,11 +14,11 @@ export const AuditShape = PropTypes.shape({
     fieldName: PropTypes.string.isRequired,
     oldValue: PropTypes.string.isRequired,
     newValue: PropTypes.string.isRequired,
-    actioned: PropTypes.instanceOf(Date).isRequired,
+    actioned: PropTypes.string.isRequired,
 });
 
 export const RecordingShape = PropTypes.shape({
     id: PropTypes.number.isRequired,
-    started: PropTypes.instanceOf(Date).isRequired,
-    ended: PropTypes.instanceOf(Date).isRequired,
+    started: PropTypes.string.isRequired,
+    ended: PropTypes.string.isRequired,
 });

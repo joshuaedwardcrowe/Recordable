@@ -13,20 +13,22 @@ import AuditList from "../Components/AuditList/AuditList";
 
 import { loadSavedTasks } from "../Store/taskActions";
 import { loadSavedAudits } from "../Store/Audit/AuditAction";
+import { loadSavedRecordings } from "../Store/Recording/RecordingAction";
 
 const useContainerStyles = makeStyles({
     root: {
-        padding: "5em",
+        padding: "1em",
         maxHeight: "90vh"
     }
 })
 
-export const TodoApp = ({ loadSavedTasks, loadSavedAudits }) => {
+export const TodoApp = ({ loadSavedTasks, loadSavedAudits, loadSavedRecordings }) => {
 
     useEffect(() => {
         loadSavedTasks()
         loadSavedAudits()
-    }, [loadSavedTasks, loadSavedAudits])
+        loadSavedRecordings()
+    }, [loadSavedTasks, loadSavedAudits, loadSavedRecordings])
 
     const containerClasses = useContainerStyles();
     return (
@@ -49,18 +51,21 @@ export const TodoApp = ({ loadSavedTasks, loadSavedAudits }) => {
 TodoApp.propTypes = {
     loadSavedTasks: PropTypes.func,
     loadSavedAudits: PropTypes.func,
+    loadSavedRecordings: PropTypes.func,
 }
 
 TodoApp.defaultProps = {
     loadSavedTasks: () => { },
-    loadSavedAudits: () => { }
+    loadSavedAudits: () => { },
+    loadSavedRecordings: () => { },
 }
 
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = dispatch => ({
     loadSavedTasks: () => dispatch(loadSavedTasks()),
-    loadSavedAudits: () => dispatch(loadSavedAudits())
+    loadSavedAudits: () => dispatch(loadSavedAudits()),
+    loadSavedRecordings: () => dispatch(loadSavedRecordings())
 })
 
 
