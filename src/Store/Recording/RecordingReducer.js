@@ -48,6 +48,12 @@ export const RecordingReducer = (state = initialState, action) => {
                 recordings: currentRecordings
             }
         }
+        case RecordingActionTypes.RECORDING_DELETE_COMPLETE: {
+            return {
+                ...state,
+                recordings: state.recordings.filter(recording => recording.id !== action.payload.recordingId)
+            }
+        }
         default:
             return state;
     }

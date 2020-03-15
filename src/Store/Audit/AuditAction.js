@@ -52,15 +52,14 @@ const updateAuditCollection = (task, fieldName, newValue) => {
     updateSavedCollection(AUDIT_STORAGE_IDENTIFIER, auditContainer);
 
     return audit;
-
 }
 
-export const completedSavingAudit = audit => ({
+const completedSavingAudit = audit => ({
     type: AuditActionTypes.AUDIT_SAVE_COMPLETE,
     payload: { audit }
 })
 
-export const failedSavingAudit = audit => ({
+const failedSavingAudit = audit => ({
     type: AuditActionTypes.AUDIT_SAVE_FAILED,
     payload: { audit }
 })
@@ -78,3 +77,21 @@ export const saveAudit = (task, fieldName, newValue) => dispatch => {
 
     }
 }
+
+const failedClearingAudits = () => ({
+    type: AuditActionTypes.AUDIT_CLEAR_FAILED
+})
+
+const completedClearingAudits = () => ({
+    type: AuditActionTypes.AUDIT_CLEAR_COMPLETE
+})
+
+export const clearAudits = () => dispatch => {
+    try {
+        updateSavedCollection(AUDIT_STORAGE_IDENTIFIER, { audits: [] })
+        dispatch(completedClearingAudits())
+    } catch (error) {
+        dispatch(failedClearingAudits())
+    }
+}
+

@@ -13,7 +13,7 @@ import StopIcon from "@material-ui/icons/Stop";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { RecordingShape } from "../../shapes";
-import { stopRecording } from "../../Store/Recording/RecordingAction"
+import { stopRecording, deleteRecording } from "../../Store/Recording/RecordingAction"
 
 const useStyles = makeStyles({
     root: {
@@ -31,7 +31,7 @@ const FormatRecordingDuration = (time) => {
     return `${hours}:${`0${minutes}`.slice(-2)}:${`0${seconds}`.slice(-2)}`;
 };
 
-export const Recording = ({ recording, stopThisRecording }) => {
+export const Recording = ({ recording, stopThisRecording, deleteThisRecording }) => {
 
     const classes = useStyles();
 
@@ -41,7 +41,9 @@ export const Recording = ({ recording, stopThisRecording }) => {
 
     const [millisecondCounter, setMillisecondCounter] = useState(initialMilliseconds)
 
-    const stop = () => stopThisRecording(recording);
+    const stopThis = () => stopThisRecording(recording);
+
+    const deleteThis = () => deleteThisRecording(recording.id);
 
     const stopPlaying = () => { }
 
@@ -65,7 +67,7 @@ export const Recording = ({ recording, stopThisRecording }) => {
                     <IconButton
                         edge="end"
                         className={classes.root}
-                        onClick={recording.ended ? stopPlaying : stop}
+                        onClick={recording.ended ? stopPlaying : stopThis}
                     >
                         {recording.ended ? <PlayArrowIcon /> : <StopIcon />}
                     </IconButton>
@@ -73,6 +75,7 @@ export const Recording = ({ recording, stopThisRecording }) => {
                 <ListItemSecondaryAction>
                     <IconButton
                         edge="end"
+                        onClick={deleteThis}
                     >
                         <DeleteIcon />
                     </IconButton>
@@ -85,16 +88,19 @@ export const Recording = ({ recording, stopThisRecording }) => {
 Recording.propTypes = {
     recording: RecordingShape.isRequired,
     stopThisRecording: PropTypes.func,
+    deleteThisRecording: PropTypes.func,
 };
 
 Recording.defaultProps = {
-    stopThisRecording: () => { }
+    stopThisRecording: () => { },
+    deleteThisRecording: () => { },
 }
 
 const mapStateToProps = ({ recordingState: { recordings } }) => ({ recordings });
 
 const mapDispatchToProps = dispatch => ({
-    stopThisRecording: recordingId => dispatch(stopRecording(recordingId))
+    stopThisRecording: recordingId => dispatch(stopRecording(recordingId)),
+    deleteThisRecording: recordingId => dispatch(deleteRecording(recordingId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recording);

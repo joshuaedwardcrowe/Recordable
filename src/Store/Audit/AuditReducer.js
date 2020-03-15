@@ -29,6 +29,12 @@ export const AuditReducer = (state = initialAuditState, action) => {
                 audits: [...state.audits, action.payload.audit]
             }
         }
+        case AuditActionTypes.AUDIT_CLEAR_COMPLETE: {
+            return {
+                ...state,
+                audits: [],
+            }
+        }
         default:
             return state;
     }

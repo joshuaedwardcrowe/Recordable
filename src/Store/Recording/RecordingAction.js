@@ -3,16 +3,16 @@ import { getSavedCollection, updateSavedCollection } from "../../Helpers/storage
 
 const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
 
-export const beginLoadingSavedRecordings = () => ({
+const beginLoadingSavedRecordings = () => ({
     type: RecordingActionTypes.RECORDING_LOAD,
 });
 
-export const completedLoadingSavedAudits = recordings => ({
+const completedLoadingSavedAudits = recordings => ({
     type: RecordingActionTypes.RECORDING_LOAD_COMPLETE,
     payload: { recordings }
 })
 
-export const failedLoadingSavedRecordings = () => ({
+const failedLoadingSavedRecordings = () => ({
     type: RecordingActionTypes.RECORDING_LOAD_FAILED
 })
 
@@ -53,12 +53,12 @@ export const startRecording = () => ({
     type: RecordingActionTypes.RECORDING_START
 })
 
-export const completedSavingRecording = recording => ({
+const completedSavingRecording = recording => ({
     type: RecordingActionTypes.RECORDING_SAVE_COMPLETE,
     payload: { recording }
 })
 
-export const failedSavingRecording = recording => ({
+const failedSavingRecording = recording => ({
     type: RecordingActionTypes.RECORDING_SAVE_FAILED,
     payload: { recording }
 })
@@ -76,5 +76,34 @@ export const stopRecording = recording => dispatch => {
 
     } catch (error) {
         dispatch(failedSavingRecording())
+    }
+}
+
+const failedDeletingRecordingInCollection = recordingId => ({
+    type: RecordingActionTypes.RECORDING_DELETE_FAILED,
+    payload: { recordingId }
+})
+
+const completedDeletingRecordInCollection = recordingId => ({
+    type: RecordingActionTypes.RECORDING_DELETE_COMPLETE,
+    payload: { recordingId }
+})
+
+const deleteRecordingInCollection = recordingId => {
+    const recordingContainer = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);
+    recordingContainer.recordings = recordingContainer.recordings.filter(({ id }) => id !== recordingId);
+    updateSavedCollection(RECORDING_STORAGE_IDENTIFIER, recordingContainer);
+}
+
+export const deleteRecording = recordingId => dispatch => {
+    try {
+
+        deleteRecordingInCollection(recordingId);
+
+        dispatch(completedDeletingRecordInCollection(recordingId))
+
+    } catch (error) {
+
+        dispatch(failedDeletingRecordingInCollection(recordingId))
     }
 }
