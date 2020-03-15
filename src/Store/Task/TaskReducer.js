@@ -46,6 +46,11 @@ export default (state = initialTaskState, action) => {
                 ...state,
                 tasks: currentTasks
             }
+        case TaskActionTypes.TASK_DELETE_COMPLETE:
+            return {
+                ...state,
+                tasks: state.tasks.filter(task => task.id !== action.payload.taskId)
+            }
         default:
             return state;
     }

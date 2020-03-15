@@ -59,7 +59,7 @@ export const failedSavingTask = task => ({
     payload: { task }
 })
 
-const updateTaskCollection = (task, fieldName, newValue) => {
+const updateTaskInCollection = (task, fieldName, newValue) => {
     const taskContainer = getSavedCollection(TASK_STORAGE_IDENTIFIER);
     const existingTask = taskContainer.tasks.find(({ id }) => task.id === id);
 
@@ -80,7 +80,7 @@ const updateTaskCollection = (task, fieldName, newValue) => {
 export const saveTask = (task, fieldName, newValue) => dispatch => {
     try {
 
-        const savedTask = updateTaskCollection(task, fieldName, newValue);
+        const savedTask = updateTaskInCollection(task, fieldName, newValue);
 
         dispatch(saveAudit(task, fieldName, newValue))
 
@@ -91,4 +91,36 @@ export const saveTask = (task, fieldName, newValue) => dispatch => {
         dispatch(failedSavingTask(task))
 
     }
+}
+
+const failedDeletingTaskInCollection = taskId => ({
+    type: TaskActionTypes.TASK_DELETE_FAILED,
+    payload: { taskId }
+})
+
+const completedDeletingInCollection = taskId => ({
+    type: TaskActionTypes.TASK_DELETE_COMPLETE,
+    payload: { taskId }
+})
+
+const deleteTaskInCollection = taskId => {
+    const taskContainer = getSavedCollection(TASK_STORAGE_IDENTIFIER);
+
+    taskContainer.tasks = taskContainer.tasks.filter(({ id }) => id !== taskId);
+
+    updateSavedCollection(TASK_STORAGE_IDENTIFIER, taskContainer);
+}
+
+export const deleteTask = taskId => dispatch => {
+    try {
+
+        deleteTaskInCollection(taskId);
+
+        dispatch(completedDeletingInCollection(taskId))
+
+    } catch (error) {
+
+        dispatch(failedDeletingTaskInCollection(taskId))
+    }
+
 }

@@ -16,7 +16,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { TaskShape } from "../../shapes";
-import { saveTask, unprepareToAddTask } from "../../Store/Task/TaskAction";
+import { saveTask, unprepareToAddTask, deleteTask } from "../../Store/Task/TaskAction";
 
 const useStyles = makeStyles({
     root: {
@@ -24,19 +24,21 @@ const useStyles = makeStyles({
     }
 })
 
-const Task = ({ task, save, unprepareToAdd }) => {
+const Task = ({ task, saveThisTask, unprepareThisTask, deleteThisTask }) => {
     const classes = useStyles();
     const [editing, setEditing] = useState(!task.created);
 
     const invertEditing = () => {
         if (!task.created) {
-            unprepareToAdd(task.id);
+            unprepareThisTask(task.id);
         } else {
             setEditing(!editing);
         }
     }
 
-    const handleChange = ({ target: { name, value } }) => save(task, name, value)
+    const handleChange = ({ target: { name, value } }) => saveThisTask(task, name, value)
+
+    const handleDelete = () => deleteThisTask(task.id);
 
     const renderDisplay = () => (
         <>
@@ -56,6 +58,7 @@ const Task = ({ task, save, unprepareToAdd }) => {
             <ListItemSecondaryAction>
                 <IconButton
                     edge="end"
+                    onClick={handleDelete}
                 >
                     <DeleteIcon />
                 </IconButton>
@@ -110,20 +113,23 @@ const Task = ({ task, save, unprepareToAdd }) => {
 
 Task.propTypes = {
     task: TaskShape.isRequired,
-    save: PropTypes.func,
-    unprepareToAdd: PropTypes.func,
+    saveThisTask: PropTypes.func,
+    unprepareThisTask: PropTypes.func,
+    deleteThisTask: PropTypes.func,
 };
 
 Task.defaultProps = {
-    save: () => { },
-    unprepareToAdd: () => { }
+    saveThisTask: () => { },
+    unprepareThisTask: () => { },
+    deleteThisTask: () => { },
 }
 
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-    save: (task, fieldName, newValue) => dispatch(saveTask(task, fieldName, newValue)),
-    unprepareToAdd: taskId => dispatch(unprepareToAddTask(taskId))
+    saveThisTask: (task, fieldName, newValue) => dispatch(saveTask(task, fieldName, newValue)),
+    unprepareToAdd: taskId => dispatch(unprepareToAddTask(taskId)),
+    deleteThisTask: taskId => dispatch(deleteTask(taskId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task);
