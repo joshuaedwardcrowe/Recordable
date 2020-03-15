@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
+import moment from "moment";
 
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -41,7 +42,7 @@ const Task = ({ task, save, unprepareToAdd }) => {
         <>
             <ListItemText
                 primary={`${task.name} - ${task.description}`}
-                secondary={task.created} // TODO: use humanizer to make pretty
+                secondary={`Created: ${moment(task.created).format('Do MMMM YYYY @ HH:mm')}`}
             />
             <ListItemSecondaryAction>
                 <IconButton
