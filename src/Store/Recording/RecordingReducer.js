@@ -21,12 +21,31 @@ export const RecordingReducer = (state = initialState, action) => {
         case RecordingActionTypes.RECORDING_LOAD_FAILED:
             return {
                 ...state,
-                auditsLoading: false,
+                recordingsLoading: false,
             }
-        case RecordingActionTypes.RECORDING_SAVE_COMPLETE: {
+        case RecordingActionTypes.RECORDING_START: {
+            const mostRecentRecording = state.recordings[state.recordings.length - 1]
+
+            const newRecording = {
+                id: mostRecentRecording ? mostRecentRecording.id + 1 : 1,
+                started: new Date().toISOString()
+            }
+
             return {
                 ...state,
-                recordings: [...state.recordings, action.payload.recordings]
+                recordings: [...state.recordings, newRecording]
+            }
+        }
+        case RecordingActionTypes.RECORDING_SAVE_COMPLETE: {
+            const currentRecordings = Array.from(state.recordings);
+            const currentRecording = currentRecordings.find(recording => recording.id === action.payload.recording.id)
+            const indexOf = currentRecordings.indexOf(currentRecording);
+
+            currentRecordings.splice(indexOf, 1, action.payload.recording);
+
+            return {
+                ...state,
+                recordings: currentRecordings
             }
         }
         default:
