@@ -17,7 +17,7 @@ import { loadSavedAudits } from "../Store/Audit/AuditAction";
 const useContainerStyles = makeStyles({
     root: {
         padding: "5em",
-        maxHeight: "100vh"
+        maxHeight: "90vh"
     }
 })
 

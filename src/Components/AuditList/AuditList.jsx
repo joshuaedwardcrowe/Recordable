@@ -11,7 +11,7 @@ import { AuditShape } from "../../shapes";
 
 const useStyles = makeStyles({
     root: {
-        height: "30vh"
+        height: "40vh"
     }
 })
 
