@@ -128,7 +128,7 @@ const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
     saveThisTask: (task, fieldName, newValue) => dispatch(saveTask(task, fieldName, newValue)),
-    unprepareToAdd: taskId => dispatch(unprepareToAddTask(taskId)),
+    unprepareThisTask: taskId => dispatch(unprepareToAddTask(taskId)),
     deleteThisTask: taskId => dispatch(deleteTask(taskId))
 })
 

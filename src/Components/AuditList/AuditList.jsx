@@ -28,9 +28,9 @@ const AuditList = ({ audits }) => {
                     {
                         audits
                             .reverse()
-                            .map(audit => (
+                            .map((audit, index) => (
                                 <Audit
-                                    key={audit.id}
+                                    key={`audit-${index}`}
                                     audit={audit}
                                 />))
                     }

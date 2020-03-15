@@ -49,12 +49,12 @@ export const unprepareToAddTask = taskId => ({
     payload: { taskId }
 })
 
-export const completedSavingTask = task => ({
+const completedSavingTask = task => ({
     type: TaskActionTypes.TASK_SAVE_COMPLETE,
     payload: { task }
 })
 
-export const failedSavingTask = task => ({
+const failedSavingTask = task => ({
     type: TaskActionTypes.TASK_SAVE_FAILED,
     payload: { task }
 })
