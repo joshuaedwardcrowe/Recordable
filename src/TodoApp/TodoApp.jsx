@@ -33,7 +33,7 @@ export const TodoApp = ({ loadSavedTasks, loadSavedAudits, loadSavedRecordings }
     const containerClasses = useContainerStyles();
     return (
         <Fragment>
-            <Bar>Josh's Todo App</Bar>
+            <Bar>Recordable Todo</Bar>
             <Grid container className={containerClasses.root} spacing={2}>
                 <Grid item xs={8}>
                     <TaskList />

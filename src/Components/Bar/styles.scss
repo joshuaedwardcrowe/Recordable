@@ -1,0 +1,13 @@
+.bar {
+    padding: 1em;
+    background-color: white;
+    box-shadow: 1px 1px 1px 1px #e5e5e5;
+
+    > .logo {
+        font-family: 'Bebas Neue';
+        font-weight: bold;
+        font-size: 2em;
+        margin-left: .75vw;
+        user-select: none;
+    }
+}

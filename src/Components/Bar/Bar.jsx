@@ -1,18 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import "./styles.scss";
 
 export const Bar = ({ children }) => (
-    <AppBar position="static">
-        <Toolbar variant="dense">
-            <Typography variant="h6" color="inherit">
-                {children}
-            </Typography>
-        </Toolbar>
-    </AppBar>
+    <header className="bar">
+        <div className="logo">
+            {children}
+        </div>
+    </header>
 );
 
 Bar.propTypes = {
