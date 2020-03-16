@@ -28,23 +28,17 @@ const Task = ({ task, saveThisTask, unprepareThisTask, deleteThisTask }) => {
     const classes = useStyles();
     const [editing, setEditing] = useState(!task.created);
 
-    const invertEditing = () => {
-        if (!task.created) {
-            unprepareThisTask(task.id);
-        } else {
-            setEditing(!editing);
-        }
-    }
-
+    const invertEditing = () => !task.created ? unprepareThisTask(task.id) : setEditing(!editing);
     const handleChange = ({ target: { name, value } }) => saveThisTask(task, name, value)
-
     const handleDelete = () => deleteThisTask(task.id);
+
+    const formattedCreatedDate = moment(task.created).format('Do MMMM YYYY @ HH:mm');
 
     const renderDisplay = () => (
         <>
             <ListItemText
                 primary={`${task.name} - ${task.description}`}
-                secondary={`Created: ${moment(task.created).format('Do MMMM YYYY @ HH:mm')}`}
+                secondary={`Created: ${formattedCreatedDate}`}
             />
             <ListItemSecondaryAction>
                 <IconButton
