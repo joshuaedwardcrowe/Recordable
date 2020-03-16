@@ -24,7 +24,10 @@ const AuditList = ({ audits, clearTheseAudits }) => {
     return (
         <>
             <ListSubheader>
-                Your Audits ({audits.length})
+                <span>
+                    Your Audits ({audits.length})
+                    {audits.length > 250 && <strong> -  Warning: High Memory Usage</strong>}
+                </span>
                 <ListItemSecondaryAction>
                     <IconButton
                         edge="end"
