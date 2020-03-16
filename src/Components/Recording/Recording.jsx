@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles"
-import moment from "moment";
 
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -11,6 +10,8 @@ import IconButton from "@material-ui/core/IconButton";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StopIcon from "@material-ui/icons/Stop";
 import DeleteIcon from "@material-ui/icons/Delete";
+
+import { FormatToBreakdown, FormatToTimestamp, CalculateMillisecondTimeDifference } from "../../Helpers/timeHelper"
 
 import { RecordingShape } from "../../shapes";
 import { stopRecording, playRecording, deleteRecording } from "../../Store/Recording/RecordingAction"
@@ -21,35 +22,32 @@ const usePrimaryListItemActionStyles = makeStyles({
     }
 })
 
-
-const FormatRecordingDuration = (time) => {
-    if (time < 0) time = 0;
-    const seconds = time % 60;
-    time = (time - seconds) / 60;
-    const minutes = time % 60;
-    const hours = (time - minutes) / 60;
-    return `${hours}:${`0${minutes}`.slice(-2)}:${`0${seconds}`.slice(-2)}`;
-};
-
 export const Recording = ({ recording, stopThisRecording, playThisRecording, deleteThisRecording }) => {
 
     const primaryListItemActionClasses = usePrimaryListItemActionStyles();
 
-    const initialMilliseconds = recording.ended
-        ? moment(recording.ended).diff(recording.started, "milliseconds")
-        : 0;
+    const millisecondsPassedCurrently = CalculateMillisecondTimeDifference(recording.started, recording.ended);
+    const [millisecondCounter, setMillisecondCounter] = useState(millisecondsPassedCurrently)
+    const [stoppingRecording, setStoppingRecording] = useState(false);
 
-    const [millisecondCounter, setMillisecondCounter] = useState(initialMilliseconds)
+    const stopThis = () => {
+        setStoppingRecording(true);
+        stopThisRecording(recording, millisecondCounter);
+    }
 
-    const stopThis = () => stopThisRecording(recording); // TOOD: CAn this be recording ID?
     const playThis = () => playThisRecording(recording.id);
     const deleteThis = () => deleteThisRecording(recording.id);
 
     useEffect(() => {
         if (!recording.ended) {
             const interval = setInterval(() => {
+                if (stoppingRecording) {
+                    clearInterval(interval);
+                    return;
+                }
+
                 setMillisecondCounter(millisecondCounter + 1)
-            }, 1000);
+            }, 1000)
             return () => clearInterval(interval);
         }
     })
@@ -58,8 +56,8 @@ export const Recording = ({ recording, stopThisRecording, playThisRecording, del
         <ListItem divider>
             <>
                 <ListItemText
-                    primary={`Started at ${moment(recording.started).format('Do MMMM YYYY @ HH:mm')}`}
-                    secondary={`Duration: ${FormatRecordingDuration(millisecondCounter)}`}
+                    primary={`Started at ${FormatToTimestamp(recording.created)}`}
+                    secondary={`Duration: ${FormatToBreakdown(millisecondCounter)}`}
                 />
                 <ListItemSecondaryAction>
                     <IconButton
@@ -101,7 +99,7 @@ Recording.defaultProps = {
 const mapStateToProps = ({ recordingState: { recordingActiveId } }) => ({ recordingActiveId })
 
 const mapDispatchToProps = dispatch => ({
-    stopThisRecording: recordingId => dispatch(stopRecording(recordingId)),
+    stopThisRecording: (recording, millisecondsRecorded) => dispatch(stopRecording(recording, millisecondsRecorded)),
     playThisRecording: recordingId => dispatch(playRecording(recordingId)),
     deleteThisRecording: recordingId => dispatch(deleteRecording(recordingId))
 });

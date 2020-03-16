@@ -1,5 +1,6 @@
 import * as RecordingActionTypes from "./RecordingActionTypes";
 import { getSavedCollection, updateSavedCollection } from "../../Helpers/storageHelper";
+import { CalculateDateReached } from "../../Helpers/timeHelper";
 import { unloadDisplayingTasks, saveTask } from "../Task/TaskAction"
 
 const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
@@ -39,12 +40,13 @@ export const loadSavedRecordings = () => dispatch => {
     }
 }
 
-const addRecordingToCollection = recording => {
+const addRecordingToCollection = (recording, millisecondsRecorded) => {
     const recordingContainer = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);
     const existingRecording = recordingContainer.recordings.find(({ id }) => recording.id === id);
 
     if (!existingRecording) {
-        recording.ended = new Date().toISOString();
+        var timeReached = CalculateDateReached(recording.started, millisecondsRecorded);
+        recording.ended = timeReached.toISOString();
         recordingContainer.recordings.push(recording);
         updateSavedCollection(RECORDING_STORAGE_IDENTIFIER, recordingContainer);
         return recording;
@@ -65,10 +67,10 @@ const failedSavingRecording = recording => ({
     payload: { recording }
 })
 
-export const stopRecording = recording => dispatch => {
+export const stopRecording = (recording, millisecondsRecorded) => dispatch => {
     try {
 
-        const addedRecording = addRecordingToCollection(recording);
+        const addedRecording = addRecordingToCollection(recording, millisecondsRecorded);
 
         if (addedRecording !== null) {
             dispatch(completedSavingRecording())
