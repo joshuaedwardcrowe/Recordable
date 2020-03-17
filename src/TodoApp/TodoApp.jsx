@@ -11,9 +11,9 @@ import TaskList from "../Components/TaskList/TaskList";
 import RecordingList from "../Components/RecordingList/RecordingList";
 import AuditList from "../Components/AuditList/AuditList";
 
-import LoadSavedTasks from "../Store/Task/TaskAction/LoadSavedTasks";
+import LoadSavedTasks from "../Store/Task/TaskActions/LoadSavedTasks";
+import loadSavedRecordings from "../Store/Recording/RecordingActions/LoadSavedRecordings"
 import { loadSavedAudits } from "../Store/Audit/AuditAction";
-import { loadSavedRecordings } from "../Store/Recording/RecordingAction";
 
 const useContainerStyles = makeStyles({
     root: {
@@ -56,16 +56,17 @@ TodoApp.propTypes = {
 
 TodoApp.defaultProps = {
     loadSavedTasks: () => { },
-    loadSavedAudits: () => { },
     loadSavedRecordings: () => { },
+    loadSavedAudits: () => { },
 }
 
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = dispatch => ({
     loadSavedTasks: () => dispatch(LoadSavedTasks()),
-    loadSavedAudits: () => dispatch(loadSavedAudits()),
-    loadSavedRecordings: () => dispatch(loadSavedRecordings())
+    loadSavedRecordings: () => dispatch(loadSavedRecordings()),
+    loadSavedAudits: () => dispatch(loadSavedAudits())
+
 })
 
 

@@ -1,45 +1,11 @@
 import * as RecordingActionTypes from "./RecordingActionTypes";
 import { getSavedCollection, updateSavedCollection } from "../../Helpers/storageHelper";
 import { CalculateDateReached } from "../../Helpers/timeHelper";
-import UnloadTasks from "../Task/TaskAction/UnloadTasks"
-import SaveTask from "../Task/TaskAction/SaveTask"
+import UnloadTasks from "../Task/TaskActions/UnloadTasks"
+import SaveTask from "../Task/TaskActions/SaveTask"
 
 const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
 const AUDIT_STORAGE_IDENTIFIER = "TODOAPP_AUDITS";
-
-const beginLoadingSavedRecordings = () => ({
-    type: RecordingActionTypes.RECORDING_LOAD,
-});
-
-const completedLoadingSavedAudits = recordings => ({
-    type: RecordingActionTypes.RECORDING_LOAD_COMPLETE,
-    payload: { recordings }
-})
-
-const failedLoadingSavedRecordings = () => ({
-    type: RecordingActionTypes.RECORDING_LOAD_FAILED
-})
-
-export const loadSavedRecordings = () => dispatch => {
-    dispatch(beginLoadingSavedRecordings());
-
-    try {
-
-        const { recordings } = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);
-
-        if (recordings.length) {
-            dispatch(completedLoadingSavedAudits(recordings))
-        } else {
-            dispatch(failedLoadingSavedRecordings())
-        }
-
-    } catch (error) {
-
-        updateSavedCollection(RECORDING_STORAGE_IDENTIFIER, { recordings: [] })
-        dispatch(failedLoadingSavedRecordings())
-
-    }
-}
 
 const addRecordingToCollection = (recording, millisecondsRecorded) => {
     const recordingContainer = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);

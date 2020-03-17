@@ -10,7 +10,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 import Task from "../Task/Task";
 import { TaskShape } from "../../shapes";
-import PrepareToAddTask from "../../Store/Task/TaskAction/PrepareToAddTask"
+import PrepareToAddTask from "../../Store/Task/TaskActions/PrepareToAddTask"
 
 const TaskList = ({ tasks, addTask }) => (
     <>
