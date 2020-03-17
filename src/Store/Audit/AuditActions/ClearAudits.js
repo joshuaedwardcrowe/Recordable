@@ -1,5 +1,5 @@
-import * as AuditActionTypes from "./AuditActionTypes";
-import { updateSavedCollection } from "../../Helpers/storageHelper";
+import * as AuditActionTypes from "../AuditActionTypes";
+import { updateSavedCollection } from "../../../Helpers/storageHelper";
 
 const AUDIT_STORAGE_IDENTIFIER = "TODOAPP_AUDITS";
 
@@ -11,7 +11,7 @@ const completedClearingAudits = () => ({
     type: AuditActionTypes.AUDIT_CLEAR_COMPLETE
 })
 
-export const clearAudits = () => dispatch => {
+export default () => dispatch => {
     try {
         updateSavedCollection(AUDIT_STORAGE_IDENTIFIER, { audits: [] })
         dispatch(completedClearingAudits())
@@ -19,4 +19,3 @@ export const clearAudits = () => dispatch => {
         dispatch(failedClearingAudits())
     }
 }
-

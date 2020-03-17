@@ -10,8 +10,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Audit from "../Audit/Audit";
-import { clearAudits } from "../../Store/Audit/AuditAction";
 import { AuditShape } from "../../shapes";
+import ClearAudits from "../../Store/Audit/AuditActions/ClearAudits"
 
 const useStyles = makeStyles({
     root: {
@@ -69,7 +69,7 @@ AuditList.defaultProps = {
 const mapStateToProps = ({ auditState: { audits } }) => ({ audits });
 
 const mapDispatchToProps = dispatch => ({
-    clearTheseAudits: () => dispatch(clearAudits())
+    clearTheseAudits: () => dispatch(ClearAudits())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuditList);
