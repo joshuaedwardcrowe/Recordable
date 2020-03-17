@@ -1,6 +1,6 @@
 import * as TaskActionTypes from "../TaskActionTypes";
 import { getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
-import { saveAudit } from "../../Audit/AuditAction";
+import SaveAudit from "../../Audit/AuditActions/SaveAudit";
 
 const TASK_STORAGE_IDENTIFIER = "TODOAPP_TASKS";
 
@@ -14,7 +14,7 @@ const failed = task => ({
     payload: { task }
 })
 
-const updateInCollection = (task, fieldName, newValue) => {
+const addToCollection = (task, fieldName, newValue) => {
     const taskContainer = getSavedCollection(TASK_STORAGE_IDENTIFIER);
     const existingTask = taskContainer.tasks.find(({ id }) => task.id === id);
 
@@ -34,9 +34,9 @@ const updateInCollection = (task, fieldName, newValue) => {
 
 export default (task, fieldName, newValue) => dispatch => {
     try {
-        const savedTask = updateInCollection(task, fieldName, newValue);
+        const savedTask = addToCollection(task, fieldName, newValue);
 
-        dispatch(saveAudit(task, fieldName, newValue))
+        dispatch(SaveAudit(task, fieldName, newValue))
         dispatch(completed(savedTask))
     } catch (error) {
         dispatch(failed(task))
