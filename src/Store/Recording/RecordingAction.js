@@ -1,7 +1,7 @@
 import * as RecordingActionTypes from "./RecordingActionTypes";
 import { getSavedCollection, updateSavedCollection } from "../../Helpers/storageHelper";
 import { CalculateDateReached } from "../../Helpers/timeHelper";
-import { unloadDisplayingTasks } from "../Task/TaskAction"
+import UnloadTasks from "../Task/TaskAction/UnloadTasks"
 import SaveTask from "../Task/TaskAction/SaveTask"
 
 const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
@@ -105,7 +105,7 @@ export const playRecording = recordingId => dispatch => {
     })
 
     if (auditsWithinRecording.length) {
-        dispatch(unloadDisplayingTasks())
+        dispatch(UnloadTasks())
 
         const interval = setInterval(() => {
 
