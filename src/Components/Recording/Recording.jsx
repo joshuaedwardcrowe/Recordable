@@ -46,7 +46,7 @@ export const Recording = ({ recording, playThisRecording, stopThisRecording, del
     return (
         <div className="recording">
             <div className="recording-left">
-                <p>Started at {FormatToTimestamp(recording.created)}</p>
+                <p>Started at {FormatToTimestamp(recording.started)}</p>
                 <p>Duration: {FormatToBreakdown(millisecondCounter)}</p>
             </div>
             <div className="recording-right">
