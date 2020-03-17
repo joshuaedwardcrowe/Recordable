@@ -11,7 +11,7 @@ import TaskList from "../Components/TaskList/TaskList";
 import RecordingList from "../Components/RecordingList/RecordingList";
 import AuditList from "../Components/AuditList/AuditList";
 
-import { loadSavedTasks } from "../Store/Task/TaskAction";
+import LoadSavedTasks from "../Store/Task/TaskAction/LoadSavedTasks";
 import { loadSavedAudits } from "../Store/Audit/AuditAction";
 import { loadSavedRecordings } from "../Store/Recording/RecordingAction";
 
@@ -63,7 +63,7 @@ TodoApp.defaultProps = {
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = dispatch => ({
-    loadSavedTasks: () => dispatch(loadSavedTasks()),
+    loadSavedTasks: () => dispatch(LoadSavedTasks()),
     loadSavedAudits: () => dispatch(loadSavedAudits()),
     loadSavedRecordings: () => dispatch(loadSavedRecordings())
 })
