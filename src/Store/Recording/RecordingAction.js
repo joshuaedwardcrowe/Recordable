@@ -1,7 +1,8 @@
 import * as RecordingActionTypes from "./RecordingActionTypes";
 import { getSavedCollection, updateSavedCollection } from "../../Helpers/storageHelper";
 import { CalculateDateReached } from "../../Helpers/timeHelper";
-import { unloadDisplayingTasks, saveTask } from "../Task/TaskAction"
+import { unloadDisplayingTasks } from "../Task/TaskAction"
+import SaveTask from "../Task/TaskAction/SaveTask"
 
 const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
 const AUDIT_STORAGE_IDENTIFIER = "TODOAPP_AUDITS";
@@ -116,7 +117,7 @@ export const playRecording = recordingId => dispatch => {
             const nextAudit = auditsWithinRecording.shift();
             const dummyTask = { id: nextAudit.taskId, [nextAudit.fieldName]: nextAudit.oldValue }
 
-            dispatch(saveTask(dummyTask, nextAudit.fieldName, nextAudit.newValue))
+            dispatch(SaveTask(dummyTask, nextAudit.fieldName, nextAudit.newValue))
 
         }, 1000)
     }
