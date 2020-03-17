@@ -1,5 +1,5 @@
-import * as RecordingActionTypes from "./RecordingActionTypes";
-import { getSavedCollection, updateSavedCollection } from "../../Helpers/storageHelper";
+import * as RecordingActionTypes from "../RecordingActionTypes";
+import { getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
 
 const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
 
@@ -19,7 +19,7 @@ const deleteRecordingInCollection = recordingId => {
     updateSavedCollection(RECORDING_STORAGE_IDENTIFIER, recordingContainer);
 }
 
-export const deleteRecording = recordingId => dispatch => {
+export default recordingId => dispatch => {
     try {
 
         deleteRecordingInCollection(recordingId);
