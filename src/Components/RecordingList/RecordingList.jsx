@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import Recording from "../Recording/Recording";
-import { startRecording } from "../../Store/Recording/RecordingAction"
 import { RecordingShape } from "../../shapes";
+import StartRecording from "../../Store/Recording/RecordingActions/StartRecording"
 import "./recordingList.scss"
 
 const RecordingList = ({ recordings, startNew }) => (
@@ -28,23 +28,6 @@ const RecordingList = ({ recordings, startNew }) => (
             }
         </div>
     </div>
-    // <>
-    //     <ListSubheader>
-    //         Your Recordings ({recordings.length})
-    //             <ListItemSecondaryAction>
-    //             <IconButton
-    //                 edge="end"
-    //                 onClick={startNew}
-    //             >
-    //                 <PlayArrowIcon />
-    //             </IconButton>
-    //         </ListItemSecondaryAction>
-    //     </ListSubheader>
-    //     <Paper elevation={5} className={classes.root}>
-    //         <Scrollbars autoHide>
-    //         </Scrollbars>
-    //     </Paper>
-    // </>
 );
 
 RecordingList.propTypes = {
@@ -59,7 +42,7 @@ RecordingList.defaultProps = {
 const mapStateToProps = ({ recordingState: { recordings } }) => ({ recordings });
 
 const mapDispatchToProps = dispatch => ({
-    startNew: () => dispatch(startRecording())
+    startNew: () => dispatch(StartRecording())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecordingList);

@@ -20,10 +20,6 @@ const addRecordingToCollection = (recording, millisecondsRecorded) => {
     }
 }
 
-export const startRecording = () => ({
-    type: RecordingActionTypes.RECORDING_START
-})
-
 const completedSavingRecording = recording => ({
     type: RecordingActionTypes.RECORDING_SAVE_COMPLETE,
     payload: { recording }
