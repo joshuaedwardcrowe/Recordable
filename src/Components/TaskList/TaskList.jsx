@@ -10,7 +10,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 import Task from "../Task/Task";
 import { TaskShape } from "../../shapes";
-import { prepareToAddTask } from "../../Store/Task/TaskAction";
+import PrepareToAddTask from "../../Store/Task/TaskAction/PrepareToAddTask"
 
 const TaskList = ({ tasks, addTask }) => (
     <>
@@ -53,7 +53,7 @@ TaskList.defaultProps = {
 const mapStateToProps = ({ taskState: { tasks } }) => ({ tasks })
 
 const mapDispatchToProps = dispatch => ({
-    addTask: () => dispatch(prepareToAddTask()),
+    addTask: () => dispatch(PrepareToAddTask()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskList);
