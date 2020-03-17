@@ -9,7 +9,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { FormatToBreakdown, FormatToTimestamp, CalculateMillisecondTimeDifference } from "../../Helpers/timeHelper"
 
 import { RecordingShape } from "../../shapes";
-import { stopRecording, playRecording, deleteRecording } from "../../Store/Recording/RecordingAction"
+import { playRecording, deleteRecording } from "../../Store/Recording/RecordingAction"
+import StopRecording from "../../Store/Recording/RecordingActions/StopRecording"
 
 import "./recording.scss";
 
@@ -77,7 +78,7 @@ Recording.defaultProps = {
 const mapStateToProps = ({ recordingState: { recordingActiveId } }) => ({ recordingActiveId })
 
 const mapDispatchToProps = dispatch => ({
-    stopThisRecording: (recording, millisecondsRecorded) => dispatch(stopRecording(recording, millisecondsRecorded)),
+    stopThisRecording: (recording, millisecondsRecorded) => dispatch(StopRecording(recording, millisecondsRecorded)),
     playThisRecording: recordingId => dispatch(playRecording(recordingId)),
     deleteThisRecording: recordingId => dispatch(deleteRecording(recordingId))
 });
