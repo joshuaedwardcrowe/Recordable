@@ -3,39 +3,6 @@ import { getSavedCollection, updateSavedCollection } from "../../Helpers/storage
 
 const AUDIT_STORAGE_IDENTIFIER = "TODOAPP_AUDITS";
 
-export const beginLoadingSavedAudits = () => ({
-    type: AuditActionTypes.AUDIT_LOAD
-});
-
-export const completedLoadingSavedAudits = audits => ({
-    type: AuditActionTypes.AUDIT_LOAD_COMPLETE,
-    payload: { audits }
-})
-
-export const failedLoadingSavedAudits = audits => ({
-    type: AuditActionTypes.AUDIT_LOAD_FAILED
-})
-
-export const loadSavedAudits = () => dispatch => {
-    dispatch(beginLoadingSavedAudits());
-
-    try {
-
-        const { audits } = getSavedCollection(AUDIT_STORAGE_IDENTIFIER);
-
-        if (audits.length) {
-            dispatch(completedLoadingSavedAudits(audits))
-        } else {
-            dispatch(failedLoadingSavedAudits())
-        }
-
-    } catch (error) {
-
-        updateSavedCollection(AUDIT_STORAGE_IDENTIFIER, { audits: [] })
-
-    }
-}
-
 const updateAuditCollection = (task, fieldName, newValue) => {
     const auditContainer = getSavedCollection(AUDIT_STORAGE_IDENTIFIER);
 

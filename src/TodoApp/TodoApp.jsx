@@ -13,7 +13,7 @@ import AuditList from "../Components/AuditList/AuditList";
 
 import LoadSavedTasks from "../Store/Task/TaskActions/LoadSavedTasks";
 import loadSavedRecordings from "../Store/Recording/RecordingActions/LoadSavedRecordings"
-import { loadSavedAudits } from "../Store/Audit/AuditAction";
+import LoadSavedAudits from "../Store/Audit/AuditActions/LoadSavedAudits"
 
 const useContainerStyles = makeStyles({
     root: {
@@ -65,7 +65,7 @@ const mapStateToProps = () => ({})
 const mapDispatchToProps = dispatch => ({
     loadSavedTasks: () => dispatch(LoadSavedTasks()),
     loadSavedRecordings: () => dispatch(loadSavedRecordings()),
-    loadSavedAudits: () => dispatch(loadSavedAudits())
+    loadSavedAudits: () => dispatch(LoadSavedAudits())
 
 })
 
