@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/styles"
 
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import IconButton from "@material-ui/core/IconButton";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StopIcon from "@material-ui/icons/Stop";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -16,15 +11,9 @@ import { FormatToBreakdown, FormatToTimestamp, CalculateMillisecondTimeDifferenc
 import { RecordingShape } from "../../shapes";
 import { stopRecording, playRecording, deleteRecording } from "../../Store/Recording/RecordingAction"
 
-const usePrimaryListItemActionStyles = makeStyles({
-    root: {
-        marginRight: "1.5em"
-    }
-})
+import "./recording.scss";
 
-export const Recording = ({ recording, stopThisRecording, playThisRecording, deleteThisRecording }) => {
-
-    const primaryListItemActionClasses = usePrimaryListItemActionStyles();
+export const Recording = ({ recording, playThisRecording, stopThisRecording, deleteThisRecording }) => {
 
     const millisecondsPassedCurrently = CalculateMillisecondTimeDifference(recording.started, recording.ended);
     const [millisecondCounter, setMillisecondCounter] = useState(millisecondsPassedCurrently)
@@ -53,32 +42,21 @@ export const Recording = ({ recording, stopThisRecording, playThisRecording, del
     })
 
     return (
-        <ListItem divider>
-            <>
-                <ListItemText
-                    primary={`Started at ${FormatToTimestamp(recording.created)}`}
-                    secondary={`Duration: ${FormatToBreakdown(millisecondCounter)}`}
-                />
-                <ListItemSecondaryAction>
-                    <IconButton
-                        edge="end"
-                        className={primaryListItemActionClasses.root}
-                        onClick={recording.ended ? playThis : stopThis}
-                    >
-                        {recording.ended ? <PlayArrowIcon /> : <StopIcon />}
-                    </IconButton>
-                </ListItemSecondaryAction>
-                <ListItemSecondaryAction>
-                    <IconButton
-                        edge="end"
-                        onClick={deleteThis}
-                    >
-                        <DeleteIcon />
-                    </IconButton>
-                </ListItemSecondaryAction>
-            </>
-        </ListItem>
-    );
+        <div className="recording">
+            <div className="recording-left">
+                <p>Started at {FormatToTimestamp(recording.created)}</p>
+                <p>Duration: {FormatToBreakdown(millisecondCounter)}</p>
+            </div>
+            <div className="recording-right">
+                <button onClick={recording.ended ? playThis : stopThis}>
+                    {recording.ended ? <PlayArrowIcon /> : <StopIcon />}
+                </button>
+                <button onClick={deleteThis}>
+                    <DeleteIcon />
+                </button>
+            </div>
+        </div>
+    )
 }
 
 Recording.propTypes = {

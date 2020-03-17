@@ -1,0 +1,41 @@
+.recording {
+    box-shadow: 1px 1px 1px 1px #e5e5e5;
+    display: flex;
+    
+
+    p {
+        margin: 0
+    }
+
+    .recording-left {
+        flex-grow: 2;
+        padding: 0.5em;
+
+        p:last-child {
+            opacity: 0.5;
+        }
+    }
+
+    .recording-right {
+        flex-grow: 1;
+        text-align: right;
+
+        button {
+            padding: 1em;
+            margin: 0;
+            background-color: transparent;
+            border: 0;
+            opacity: 1;
+        }
+
+        button:hover {
+            cursor: pointer;
+            opacity: 0.2;
+            transition: opacity 0.2s ease;
+        }
+
+        button:focus {
+            outline: 0;
+        }
+    }
+}
