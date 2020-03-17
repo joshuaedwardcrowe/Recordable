@@ -1,0 +1,44 @@
+@import "../buttons";
+@import "../text";
+@import "../container";
+
+.recordingList {
+    
+
+    .recordingList-header {
+        display: flex;
+
+        .recordingList-header-left {
+            flex-grow: 2;
+
+            p {
+                @include header(1.5em);
+                margin: .5em;
+
+                .recordingList-count {
+                    background-color: white;
+                    vertical-align: middle;
+                    padding: .25em;
+                    padding-left: .4em;
+                    padding-right: .4em;
+                    border-radius: 50%;
+                    font-family: 'Squada One';
+                    font-size: .75em !important;
+                }
+            }
+        }
+    
+        .recordingList-header-right {
+            flex-grow: 1;
+            text-align: right;
+
+            button {
+                @include iconButton;
+            }
+        }
+    }
+
+    .recordingList-container {
+        @include container;
+    }
+}

@@ -1,0 +1,7 @@
+@mixin header($fontSize) {
+    font-family: 'Bebas Neue';
+    font-weight: bold;
+    font-size: $fontSize;
+    margin-left: .75vw;
+    user-select: none;
+}

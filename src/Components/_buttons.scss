@@ -1,0 +1,17 @@
+@mixin iconButton() {
+    padding: 1em;
+    margin: 0;
+    background-color: transparent;
+    border: 0;
+    opacity: 1;
+
+    &:hover {
+        cursor: pointer;
+        opacity: 0.2;
+        transition: opacity 0.2s ease;
+    }
+
+    &:focus {
+        outline: 0;
+    }
+}
