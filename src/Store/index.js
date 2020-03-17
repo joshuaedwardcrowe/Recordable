@@ -5,8 +5,6 @@ import TaskReducer from "./Task/TaskReducer";
 import AuditReducer from "./Audit/AuditReducer";
 import RecordingReducer from "./Recording/RecordingReducer";
 
-
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const combinedReducers = combineReducers({

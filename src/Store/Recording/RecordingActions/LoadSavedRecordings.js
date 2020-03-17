@@ -3,36 +3,32 @@ import { getSavedCollection, updateSavedCollection } from "../../../Helpers/stor
 
 const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
 
-const beginLoadingSavedRecordings = () => ({
+const begin = () => ({
     type: RecordingActionTypes.RECORDING_LOAD,
 });
 
-const completedLoadingSavedAudits = recordings => ({
+const completed = recordings => ({
     type: RecordingActionTypes.RECORDING_LOAD_COMPLETE,
     payload: { recordings }
 })
 
-const failedLoadingSavedRecordings = () => ({
+const failed = () => ({
     type: RecordingActionTypes.RECORDING_LOAD_FAILED
 })
 
 export default () => dispatch => {
-    dispatch(beginLoadingSavedRecordings());
+    dispatch(begin());
 
     try {
-
         const { recordings } = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);
 
         if (recordings.length) {
-            dispatch(completedLoadingSavedAudits(recordings))
+            dispatch(completed(recordings))
         } else {
-            dispatch(failedLoadingSavedRecordings())
+            dispatch(failed())
         }
-
     } catch (error) {
-
         updateSavedCollection(RECORDING_STORAGE_IDENTIFIER, { recordings: [] })
-        dispatch(failedLoadingSavedRecordings())
-
+        dispatch(failed())
     }
 }

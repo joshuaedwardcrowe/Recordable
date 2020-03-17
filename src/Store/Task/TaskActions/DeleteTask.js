@@ -3,34 +3,27 @@ import { getSavedCollection, updateSavedCollection } from "../../../Helpers/stor
 
 const TASK_STORAGE_IDENTIFIER = "TODOAPP_TASKS";
 
-const failedDeletingTaskInCollection = taskId => ({
+const failed = taskId => ({
     type: TaskActionTypes.TASK_DELETE_FAILED,
     payload: { taskId }
 })
 
-const completedDeletingInCollection = taskId => ({
+const completed = taskId => ({
     type: TaskActionTypes.TASK_DELETE_COMPLETE,
     payload: { taskId }
 })
 
-const deleteTaskInCollection = taskId => {
+const deleteInCollection = taskId => {
     const taskContainer = getSavedCollection(TASK_STORAGE_IDENTIFIER);
-
     taskContainer.tasks = taskContainer.tasks.filter(({ id }) => id !== taskId);
-
     updateSavedCollection(TASK_STORAGE_IDENTIFIER, taskContainer);
 }
 
 export default taskId => dispatch => {
     try {
-
-        deleteTaskInCollection(taskId);
-
-        dispatch(completedDeletingInCollection(taskId))
-
+        deleteInCollection(taskId);
+        dispatch(completed(taskId))
     } catch (error) {
-
-        dispatch(failedDeletingTaskInCollection(taskId))
+        dispatch(failed(taskId))
     }
-
 }

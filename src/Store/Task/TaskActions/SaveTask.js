@@ -4,17 +4,17 @@ import { saveAudit } from "../../Audit/AuditAction";
 
 const TASK_STORAGE_IDENTIFIER = "TODOAPP_TASKS";
 
-const completedSavingTask = task => ({
+const completed = task => ({
     type: TaskActionTypes.TASK_SAVE_COMPLETE,
     payload: { task }
 })
 
-const failedSavingTask = task => ({
+const failed = task => ({
     type: TaskActionTypes.TASK_SAVE_FAILED,
     payload: { task }
 })
 
-const updateTaskInCollection = (task, fieldName, newValue) => {
+const updateInCollection = (task, fieldName, newValue) => {
     const taskContainer = getSavedCollection(TASK_STORAGE_IDENTIFIER);
     const existingTask = taskContainer.tasks.find(({ id }) => task.id === id);
 
@@ -34,16 +34,11 @@ const updateTaskInCollection = (task, fieldName, newValue) => {
 
 export default (task, fieldName, newValue) => dispatch => {
     try {
-
-        const savedTask = updateTaskInCollection(task, fieldName, newValue);
+        const savedTask = updateInCollection(task, fieldName, newValue);
 
         dispatch(saveAudit(task, fieldName, newValue))
-
-        dispatch(completedSavingTask(savedTask))
-
+        dispatch(completed(savedTask))
     } catch (error) {
-
-        dispatch(failedSavingTask(task))
-
+        dispatch(failed(task))
     }
 }

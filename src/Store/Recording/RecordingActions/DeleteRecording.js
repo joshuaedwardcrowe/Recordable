@@ -3,17 +3,17 @@ import { getSavedCollection, updateSavedCollection } from "../../../Helpers/stor
 
 const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
 
-const failedDeletingRecordingInCollection = recordingId => ({
+const failed = recordingId => ({
     type: RecordingActionTypes.RECORDING_DELETE_FAILED,
     payload: { recordingId }
 })
 
-const completedDeletingRecordInCollection = recordingId => ({
+const completed = recordingId => ({
     type: RecordingActionTypes.RECORDING_DELETE_COMPLETE,
     payload: { recordingId }
 })
 
-const deleteRecordingInCollection = recordingId => {
+const deleteInCollection = recordingId => {
     const recordingContainer = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);
     recordingContainer.recordings = recordingContainer.recordings.filter(({ id }) => id !== recordingId);
     updateSavedCollection(RECORDING_STORAGE_IDENTIFIER, recordingContainer);
@@ -21,13 +21,9 @@ const deleteRecordingInCollection = recordingId => {
 
 export default recordingId => dispatch => {
     try {
-
-        deleteRecordingInCollection(recordingId);
-
-        dispatch(completedDeletingRecordInCollection(recordingId))
-
+        deleteInCollection(recordingId);
+        dispatch(completed(recordingId))
     } catch (error) {
-
-        dispatch(failedDeletingRecordingInCollection(recordingId))
+        dispatch(failed(recordingId))
     }
 }
