@@ -5,35 +5,41 @@ import SaveTask from "../../Task/TaskActions/SaveTask"
 const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
 const AUDIT_STORAGE_IDENTIFIER = "TODOAPP_AUDITS";
 
-export default recordingId => dispatch => {
+const getRecording = recordingId => {
     const { recordings } = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);
-    const recording = recordings.find(x => x.id === recordingId);
+    return recordings.find(recording => recording.id === recordingId);
+}
 
+const getAuditsWithinRecordingTime = recording => {
     const recordingStartedDate = new Date(recording.started);
     const recordingEndedDate = new Date(recording.ended);
 
     const { audits } = getSavedCollection(AUDIT_STORAGE_IDENTIFIER);
 
-    const auditsWithinRecording = audits.filter(({ actioned }) => {
+    return audits.filter(({ actioned }) => {
         const actionedDate = new Date(actioned);
         return actionedDate > recordingStartedDate && actionedDate < recordingEndedDate;
     })
+}
 
-    if (auditsWithinRecording.length) {
-        dispatch(UnloadTasks())
+export default recordingId => dispatch => {
+    const recording = getRecording(recordingId);
+    const auditsWithinRecordingTime = getAuditsWithinRecordingTime(recording);
 
-        const interval = setInterval(() => {
+    if (!auditsWithinRecordingTime.length) return;
+    dispatch(UnloadTasks())
 
-            if (!auditsWithinRecording.length) {
-                clearInterval(interval);
-                return;
-            }
+    const interval = setInterval(() => {
 
-            const nextAudit = auditsWithinRecording.shift();
-            const dummyTask = { id: nextAudit.taskId, [nextAudit.fieldName]: nextAudit.oldValue }
+        if (!auditsWithinRecordingTime.length) {
+            clearInterval(interval);
+            return;
+        }
 
-            dispatch(SaveTask(dummyTask, nextAudit.fieldName, nextAudit.newValue))
+        const nextAudit = auditsWithinRecordingTime.shift();
+        const dummyTask = { id: nextAudit.taskId, [nextAudit.fieldName]: nextAudit.oldValue }
 
-        }, 1000)
-    }
+        dispatch(SaveTask(dummyTask, nextAudit.fieldName, nextAudit.newValue))
+
+    }, 1000)
 }

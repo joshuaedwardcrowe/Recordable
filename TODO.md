@@ -10,4 +10,3 @@
 10. make storage identifiers part of the storagehelper file
 11. add scrolling to recordings.
 12. fix bug where all recordings show same created date.
-13. tidy up playrecording action.
