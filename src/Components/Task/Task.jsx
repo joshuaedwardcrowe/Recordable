@@ -16,8 +16,9 @@ import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { TaskShape } from "../../shapes";
-import { unprepareToAddTask, deleteTask } from "../../Store/Task/TaskAction";
+import { unprepareToAddTask } from "../../Store/Task/TaskAction";
 import SaveTask from "../../Store/Task/TaskAction/SaveTask"
+import DeleteTask from "../../Store/Task/TaskAction/DeleteTask"
 
 const useStyles = makeStyles({
     root: {
@@ -128,7 +129,7 @@ const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
     saveThisTask: (task, fieldName, newValue) => dispatch(SaveTask(task, fieldName, newValue)),
     unprepareThisTask: taskId => dispatch(unprepareToAddTask(taskId)),
-    deleteThisTask: taskId => dispatch(deleteTask(taskId))
+    deleteThisTask: taskId => dispatch(DeleteTask(taskId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task);
