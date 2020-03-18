@@ -24,21 +24,15 @@ export const RecordingReducer = (state = initialState, action) => {
                 ...state,
                 recordingsLoading: false,
             }
-        case RecordingActionTypes.RECORDING_START: {
-            const mostRecentRecording = state.recordings[state.recordings.length - 1]
-
-            const newRecording = {
-                id: mostRecentRecording ? mostRecentRecording.id + 1 : 1,
-                started: new Date().toISOString()
-            }
-
+        case RecordingActionTypes.RECORDING_START_COMPLETE: {
             return {
                 ...state,
-                recordings: [...state.recordings, newRecording],
-                recordingActiveId: newRecording.id
+                recordings: [...state.recordings, action.payload.recording],
+                recordingActiveId: action.payload.recording.id
             }
         }
-        case RecordingActionTypes.RECORDING_SAVE_COMPLETE: {
+        case RecordingActionTypes.RECORDING_ASSOCIATE_AUDIT_COMPLETE:
+        case RecordingActionTypes.RECORDING_STOP_COMPLETE:
             const currentRecordings = Array.from(state.recordings);
             const currentRecording = currentRecordings.find(recording => recording.id === action.payload.recording.id)
             const indexOf = currentRecordings.indexOf(currentRecording);
@@ -49,7 +43,7 @@ export const RecordingReducer = (state = initialState, action) => {
                 ...state,
                 recordings: currentRecordings
             }
-        }
+
         case RecordingActionTypes.RECORDING_PLAYING: {
             return {
                 ...state,

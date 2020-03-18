@@ -15,13 +15,12 @@ import DeleteRecording from "../../Store/Recording/RecordingActions/DeleteRecord
 
 import "./recording.scss";
 
-export const Recording = ({ recording, recordingActiveId, playThisRecording, stopThisRecording, deleteThisRecording }) => {
+export const Recording = ({ recording, playThisRecording, stopThisRecording, deleteThisRecording }) => {
 
     const millisecondsPassedCurrently = CalculateMillisecondTimeDifference(recording.started, recording.ended);
     const [millisecondCounter, setMillisecondCounter] = useState(millisecondsPassedCurrently)
     const [stoppingRecording, setStoppingRecording] = useState(false);
     const [playingRecording, setPlayingRecording] = useState(false);
-    const isThisRecordingActive = recording.id === recordingActiveId;
 
     const stopThis = () => {
         setStoppingRecording(true);
@@ -35,7 +34,7 @@ export const Recording = ({ recording, recordingActiveId, playThisRecording, sto
     const deleteThis = () => deleteThisRecording(recording.id);
 
     const getRecordingStatus = () => {
-        if (isThisRecordingActive) return "started";
+        if (!recording.ended) return "started";
         if (playingRecording) return "playing"
         return "";
     }
@@ -87,7 +86,7 @@ Recording.defaultProps = {
     deleteThisRecording: () => { },
 }
 
-const mapStateToProps = ({ recordingState: { recordingActiveId } }) => ({ recordingActiveId })
+const mapStateToProps = () => ({})
 
 const mapDispatchToProps = dispatch => ({
     stopThisRecording: (recording, millisecondsRecorded) => dispatch(StopRecording(recording, millisecondsRecorded)),

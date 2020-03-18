@@ -1,8 +1,6 @@
 import * as TaskActionTypes from "../TaskActionTypes";
-import { getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { TASK_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
 import SaveAudit from "../../Audit/AuditActions/SaveAudit";
-
-const TASK_STORAGE_IDENTIFIER = "TODOAPP_TASKS";
 
 const completed = task => ({
     type: TaskActionTypes.TASK_SAVE_COMPLETE,
@@ -15,19 +13,19 @@ const failed = task => ({
 })
 
 const addToCollection = (task, fieldName, newValue) => {
-    const taskContainer = getSavedCollection(TASK_STORAGE_IDENTIFIER);
+    const taskContainer = getSavedCollection(TASK_COLLECTION);
     const existingTask = taskContainer.tasks.find(({ id }) => task.id === id);
 
     if (!existingTask) {
         task.created = new Date().toISOString()
         task[fieldName] = newValue;
         taskContainer.tasks.push(task);
-        updateSavedCollection(TASK_STORAGE_IDENTIFIER, taskContainer);
+        updateSavedCollection(TASK_COLLECTION, taskContainer);
         return task;
     }
 
     existingTask[fieldName] = newValue;
-    updateSavedCollection(TASK_STORAGE_IDENTIFIER, taskContainer);
+    updateSavedCollection(TASK_COLLECTION, taskContainer);
 
     return existingTask;
 }

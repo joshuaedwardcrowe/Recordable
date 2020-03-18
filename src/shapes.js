@@ -10,6 +10,7 @@ export const TaskShape = PropTypes.shape({
 
 
 export const AuditShape = PropTypes.shape({
+    Id: PropTypes.number.isRequired,
     taskId: PropTypes.number.isRequired,
     fieldName: PropTypes.string.isRequired,
     oldValue: PropTypes.string,
@@ -21,4 +22,5 @@ export const RecordingShape = PropTypes.shape({
     id: PropTypes.number.isRequired,
     started: PropTypes.string.isRequired,
     ended: PropTypes.string,
+    applyableAuditIds: PropTypes.arrayOf(PropTypes.number).isRequired,
 });
