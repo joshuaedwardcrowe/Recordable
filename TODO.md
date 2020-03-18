@@ -12,3 +12,6 @@
 12. ~~fix bug where all recordings show same created date.~~
 13. ~~tidy up playrecording action~~
 14. add a clear all recordings button.
+15. remove active recording id, you can just check if theres an ended value.
+16. ~~rename stoprecording to saverecording~~
+17. ~~rename auditIds~~

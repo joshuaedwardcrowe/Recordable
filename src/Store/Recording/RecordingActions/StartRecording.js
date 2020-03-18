@@ -8,7 +8,7 @@ const addToCollection = () => {
     const recording = {
         id: latestRecording ? latestRecording.id + 1 : 1,
         started: new Date().toISOString(),
-        appliableAuditIds: [],
+        auditIds: [],
     }
     recordingContainer.recordings.push(recording);
 

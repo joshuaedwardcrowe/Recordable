@@ -10,8 +10,8 @@ const addAuditId = (recording, auditId) => {
         ...otherRecordings,
         {
             ...existingRecording,
-            appliableAuditIds: [
-                ...existingRecording.appliableAuditIds,
+            auditIds: [
+                ...existingRecording.auditIds,
                 auditId
             ]
         }

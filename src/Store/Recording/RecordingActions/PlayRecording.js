@@ -7,14 +7,14 @@ const getRecording = recordingId => {
     return recordings.find(recording => recording.id === recordingId);
 }
 
-const getAudits = appliableAuditIds => {
+const getAudits = auditIds => {
     const { audits } = getSavedCollection(AUDIT_COLLECTION);
-    return audits.filter(audit => !appliableAuditIds.includes(audit.id));
+    return audits.filter(audit => !auditIds.includes(audit.id));
 }
 
 export default recordingId => dispatch => {
     const recording = getRecording(recordingId);
-    const auditsWithinRecordingTime = getAudits(recording.appliableAuditIds);
+    const auditsWithinRecordingTime = getAudits(recording.auditIds);
 
     if (!auditsWithinRecordingTime.length) return;
     dispatch(UnloadTasks())
