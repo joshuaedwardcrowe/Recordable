@@ -1,4 +1,18 @@
 @mixin container {
     background-color: white;
     box-shadow: 1px 1px 1px 1px #e5e5e5;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        width: .25em;
+    }
+       
+    &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+       
+    &::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 1px solid slategrey;
+    }
 }

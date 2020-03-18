@@ -8,5 +8,7 @@
 8. highllight a recording green when playing.
 9. separate out Shapes.
 10. make storage identifiers part of the storagehelper file
-11. add scrolling to recordings.
-12. add a clear all recordings button.
+~~11. add scrolling to recordings.~~
+~~12. fix bug where all recordings show same created date.~~
+~~13. tidy up playrecording action~~
+14. add a clear all recordings button.

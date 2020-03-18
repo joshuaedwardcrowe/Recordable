@@ -40,5 +40,8 @@
 
     .recordingList-container {
         @include container;
+
+        /* Enough space for 3x recording listings. */
+        height: calc(54px * 3); 
     }
 }
