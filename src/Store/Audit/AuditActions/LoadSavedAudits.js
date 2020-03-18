@@ -1,7 +1,5 @@
 import * as AuditActionTypes from "../AuditActionTypes";
-import { getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
-
-const AUDIT_STORAGE_IDENTIFIER = "TODOAPP_AUDITS";
+import { AUDIT_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
 
 export const begin = () => ({
     type: AuditActionTypes.AUDIT_LOAD
@@ -20,7 +18,7 @@ export default () => dispatch => {
     dispatch(begin());
 
     try {
-        const { audits } = getSavedCollection(AUDIT_STORAGE_IDENTIFIER);
+        const { audits } = getSavedCollection(AUDIT_COLLECTION);
 
         if (audits.length) {
             dispatch(completed(audits))
@@ -28,7 +26,7 @@ export default () => dispatch => {
             dispatch(failed())
         }
     } catch (error) {
-        updateSavedCollection(AUDIT_STORAGE_IDENTIFIER, { audits: [] })
+        updateSavedCollection(AUDIT_COLLECTION, { audits: [] })
         dispatch(failed())
     }
 }

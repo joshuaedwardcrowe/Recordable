@@ -1,7 +1,5 @@
 import * as TaskActionTypes from "../TaskActionTypes";
-import { getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
-
-const TASK_STORAGE_IDENTIFIER = "TODOAPP_TASKS";
+import { TASK_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
 
 const begin = () => ({
     type: TaskActionTypes.TASK_LOAD
@@ -20,7 +18,7 @@ export default () => dispatch => {
     dispatch(begin())
 
     try {
-        const { tasks } = getSavedCollection(TASK_STORAGE_IDENTIFIER)
+        const { tasks } = getSavedCollection(TASK_COLLECTION)
 
         if (tasks.length) {
             dispatch(completed(tasks));
@@ -28,7 +26,7 @@ export default () => dispatch => {
             dispatch(failed())
         }
     } catch (error) {
-        updateSavedCollection(TASK_STORAGE_IDENTIFIER, { tasks: [] })
+        updateSavedCollection(TASK_COLLECTION, { tasks: [] })
         dispatch(failed())
     }
 }

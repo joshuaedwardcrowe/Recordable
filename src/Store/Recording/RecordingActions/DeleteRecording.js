@@ -1,7 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
-
-const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
+import { RECORDING_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
 
 const failed = recordingId => ({
     type: RecordingActionTypes.RECORDING_DELETE_FAILED,
@@ -14,9 +12,9 @@ const completed = recordingId => ({
 })
 
 const deleteInCollection = recordingId => {
-    const recordingContainer = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);
+    const recordingContainer = getSavedCollection(RECORDING_COLLECTION);
     recordingContainer.recordings = recordingContainer.recordings.filter(({ id }) => id !== recordingId);
-    updateSavedCollection(RECORDING_STORAGE_IDENTIFIER, recordingContainer);
+    updateSavedCollection(RECORDING_COLLECTION, recordingContainer);
 }
 
 export default recordingId => dispatch => {

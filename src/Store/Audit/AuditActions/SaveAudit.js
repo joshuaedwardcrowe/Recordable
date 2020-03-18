@@ -1,10 +1,8 @@
 import * as AuditActionTypes from "../AuditActionTypes";
-import { getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
-
-const AUDIT_STORAGE_IDENTIFIER = "TODOAPP_AUDITS";
+import { AUDIT_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
 
 const addToCollection = (task, fieldName, newValue) => {
-    const auditContainer = getSavedCollection(AUDIT_STORAGE_IDENTIFIER);
+    const auditContainer = getSavedCollection(AUDIT_COLLECTION);
 
     const audit = {
         taskId: task.id,
@@ -16,7 +14,7 @@ const addToCollection = (task, fieldName, newValue) => {
 
     auditContainer.audits.push(audit);
 
-    updateSavedCollection(AUDIT_STORAGE_IDENTIFIER, auditContainer);
+    updateSavedCollection(AUDIT_COLLECTION, auditContainer);
 
     return audit;
 }

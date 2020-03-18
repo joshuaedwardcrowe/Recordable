@@ -1,7 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
-
-const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
+import { RECORDING_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
 
 const begin = () => ({
     type: RecordingActionTypes.RECORDING_LOAD,
@@ -20,7 +18,7 @@ export default () => dispatch => {
     dispatch(begin());
 
     try {
-        const { recordings } = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);
+        const { recordings } = getSavedCollection(RECORDING_COLLECTION);
 
         if (recordings.length) {
             dispatch(completed(recordings))
@@ -28,7 +26,7 @@ export default () => dispatch => {
             dispatch(failed())
         }
     } catch (error) {
-        updateSavedCollection(RECORDING_STORAGE_IDENTIFIER, { recordings: [] })
+        updateSavedCollection(RECORDING_COLLECTION, { recordings: [] })
         dispatch(failed())
     }
 }

@@ -1,18 +1,16 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { RECORDING_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
 import { CalculateDateReached } from "../../../Helpers/timeHelper";
 
-const RECORDING_STORAGE_IDENTIFIER = "TODOAPP_RECORDING";
-
 const addRecordingToCollection = (recording, millisecondsRecorded) => {
-    const recordingContainer = getSavedCollection(RECORDING_STORAGE_IDENTIFIER);
+    const recordingContainer = getSavedCollection(RECORDING_COLLECTION);
     const existingRecording = recordingContainer.recordings.find(({ id }) => recording.id === id);
 
     if (!existingRecording) {
         var timeReached = CalculateDateReached(recording.started, millisecondsRecorded);
         recording.ended = timeReached.toISOString();
         recordingContainer.recordings.push(recording);
-        updateSavedCollection(RECORDING_STORAGE_IDENTIFIER, recordingContainer);
+        updateSavedCollection(RECORDING_COLLECTION, recordingContainer);
         return recording;
     }
 }
