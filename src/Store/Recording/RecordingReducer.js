@@ -34,7 +34,8 @@ export const RecordingReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                recordings: [...state.recordings, newRecording]
+                recordings: [...state.recordings, newRecording],
+                recordingActiveId: newRecording.id
             }
         }
         case RecordingActionTypes.RECORDING_SAVE_COMPLETE: {

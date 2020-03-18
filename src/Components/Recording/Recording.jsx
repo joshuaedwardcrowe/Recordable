@@ -15,19 +15,30 @@ import DeleteRecording from "../../Store/Recording/RecordingActions/DeleteRecord
 
 import "./recording.scss";
 
-export const Recording = ({ recording, playThisRecording, stopThisRecording, deleteThisRecording }) => {
+export const Recording = ({ recording, recordingActiveId, playThisRecording, stopThisRecording, deleteThisRecording }) => {
 
     const millisecondsPassedCurrently = CalculateMillisecondTimeDifference(recording.started, recording.ended);
     const [millisecondCounter, setMillisecondCounter] = useState(millisecondsPassedCurrently)
     const [stoppingRecording, setStoppingRecording] = useState(false);
+    const [playingRecording, setPlayingRecording] = useState(false);
+    const isThisRecordingActive = recording.id === recordingActiveId;
 
     const stopThis = () => {
         setStoppingRecording(true);
         stopThisRecording(recording, millisecondCounter);
     }
 
-    const playThis = () => playThisRecording(recording.id);
+    const playThis = () => {
+        setPlayingRecording(true);
+        playThisRecording(recording.id);
+    }
     const deleteThis = () => deleteThisRecording(recording.id);
+
+    const getRecordingStatus = () => {
+        if (isThisRecordingActive) return "started";
+        if (playingRecording) return "playing"
+        return "";
+    }
 
     useEffect(() => {
         if (!recording.ended) {
@@ -44,7 +55,7 @@ export const Recording = ({ recording, playThisRecording, stopThisRecording, del
     })
 
     return (
-        <div className="recording">
+        <div className={`recording ${getRecordingStatus()}`}>
             <div className="recording-left">
                 <p>Started at {FormatToTimestamp(recording.started)}</p>
                 <p>Duration: {FormatToBreakdown(millisecondCounter)}</p>

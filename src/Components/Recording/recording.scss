@@ -4,6 +4,13 @@
     box-shadow: 1px 1px 1px 1px #e5e5e5;
     display: flex;
     
+    &.started {
+        background-color: #FF6666;
+    }
+
+    &.playing {
+        background-color: #78EDB2;
+    }
 
     p {
         margin: 0;
