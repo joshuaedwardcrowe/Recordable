@@ -23,3 +23,4 @@
 23. sort contents of collections/containers by id when you change.
 24. try to separate add/update of tasks.
 25. improve the "start recording" icon.
+26. Make Listheader styles generic.

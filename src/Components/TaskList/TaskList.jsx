@@ -1,43 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
-import Paper from "@material-ui/core/Paper";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 
 import Task from "../Task/Task";
 import TaskShape from "../../Shapes/TaskShape";
 import PrepareToAddTask from "../../Store/Task/TaskActions/PrepareToAddTask"
 
+import "./taskList.scss";
+
 const TaskList = ({ tasks, addTask }) => (
-    <>
-        <ListSubheader>
-            Your Tasks ({tasks.length})
-            <ListItemSecondaryAction>
-                <IconButton
-                    edge="end"
-                    onClick={addTask}
-                >
+    <div className="taskList">
+        <div className="taskList-header">
+            <div className="taskList-header-left">
+                <p>Your Tasks <span className="taskList-count">({tasks.length})</span></p>
+            </div>
+            <div className="taskList-header-right">
+                <button onClick={addTask}>
                     <AddIcon />
-                </IconButton>
-            </ListItemSecondaryAction>
-        </ListSubheader>
-        <Paper elevation={5}>
-            {
-                tasks
-                    .filter(task => !task.deleted)
-                    .sort((a, b) => a.created < b.created)
-                    .map(task => (
-                        <Task
-                            key={task.id}
-                            task={task}
-                        />))
-            }
-        </Paper>
-    </>
+                </button>
+            </div>
+        </div>
+
+        {
+            tasks
+                .filter(task => !task.deleted)
+                .sort((a, b) => a.created < b.created)
+                .map(task => (
+                    <Task
+                        key={task.id}
+                        task={task}
+                    />))
+        }
+    </div>
 );
 
 TaskList.propTypes = {

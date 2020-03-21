@@ -1,0 +1,47 @@
+@import "../buttons";
+@import "../text";
+@import "../container";
+
+.taskList {
+    
+
+    .taskList-header {
+        display: flex;
+
+        .taskList-header-left {
+            flex-grow: 2;
+
+            p {
+                @include header(1.5em);
+                margin: .5em;
+
+                .taskList-count {
+                    background-color: white;
+                    vertical-align: middle;
+                    padding: .25em;
+                    padding-left: .4em;
+                    padding-right: .4em;
+                    border-radius: 50%;
+                    font-family: 'Squada One';
+                    font-size: .75em !important;
+                }
+            }
+        }
+    
+        .taskList-header-right {
+            flex-grow: 1;
+            text-align: right;
+
+            button {
+                @include iconButton;
+            }
+        }
+    }
+
+    .taskList-container {
+        @include container;
+
+        /* Enough space for 3x recording listings. */
+        height: calc(54px * 3); 
+    }
+}
