@@ -6,7 +6,7 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StopIcon from "@material-ui/icons/Stop";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import { FormatToBreakdown, FormatToTimestamp, CalculateMillisecondTimeDifference } from "../../Helpers/timeHelper"
+import { FormatToBreakdown, FormatToTimestamp, CalculateSecondTimeDifference } from "../../Helpers/timeHelper"
 
 import { RecordingShape } from "../../shapes";
 import StopRecording from "../../Store/Recording/RecordingActions/StopRecording"
@@ -23,7 +23,7 @@ export class Recording extends Component {
         super(props);
 
         this.state = {
-            millisecondCounter: CalculateMillisecondTimeDifference(props.recording.started, props.recording.ended),
+            millisecondCounter: CalculateSecondTimeDifference(props.recording.started, props.recording.ended),
             stoppingRecording: false,
             playingRecording: false,
         };
@@ -59,7 +59,7 @@ export class Recording extends Component {
 
                 this.setState({
                     playingRecording: false,
-                    millisecondCounter: CalculateMillisecondTimeDifference(this.props.recording.started, this.props.recording.ended)
+                    millisecondCounter: CalculateSecondTimeDifference(this.props.recording.started, this.props.recording.ended)
                 })
 
                 return;

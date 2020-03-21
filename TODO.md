@@ -16,5 +16,5 @@
 16. ~~rename stoprecording to saverecording~~
 17. ~~rename auditIds~~
 18. ~~recording countdown~~
-19. rename timestamp func from millisecond to second
+19. ~~rename timestamp func from millisecond to second~~
 20. move collection based business logic to some kind of service?

@@ -1,5 +1,5 @@
 import { RECORDING_COLLECTION, AUDIT_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
-import { CalculateMillisecondTimeDifference } from "../../../Helpers/timeHelper"
+import { CalculateSecondTimeDifference } from "../../../Helpers/timeHelper"
 import UnloadTasks from "../../Task/TaskActions/UnloadTasks"
 import SaveTask from "../../Task/TaskActions/SaveTask"
 
@@ -27,7 +27,7 @@ const getAudits = auditIds => {
 
 const applyAudits = (recording, audits, dispatch) => {
 
-    const differenceInMilliseconds = CalculateMillisecondTimeDifference(recording.started, recording.ended) * 1000;
+    const differenceInMilliseconds = CalculateSecondTimeDifference(recording.started, recording.ended) * 1000;
     const timeout = differenceInMilliseconds / audits.length;
 
     const interval = setInterval(() => {

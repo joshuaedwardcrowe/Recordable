@@ -14,7 +14,7 @@ export const FormatToBreakdown = timeInMilliseconds => {
 export const FormatToTimestamp = parseableDate =>
     moment(parseableDate).format(TIMESTAMP_FORMAT);
 
-export const CalculateMillisecondTimeDifference = (parseableStartDate, parseableEndDate) => {
+export const CalculateSecondTimeDifference = (parseableStartDate, parseableEndDate) => {
     if (!parseableStartDate || !parseableEndDate) return 0;
     const parsedStartDate = new Date(parseableStartDate);
     const parsedEndDate = new Date(parseableEndDate);
