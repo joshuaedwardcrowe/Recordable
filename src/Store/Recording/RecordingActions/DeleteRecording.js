@@ -1,5 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { DeleteRecording } from "../../../Helpers/Storage/RecordingStorage";
+import { DeleteRecording } from "../../../Storage/RecordingStorage";
 
 const failed = recordingId => ({
     type: RecordingActionTypes.RECORDING_DELETE_FAILED,

@@ -1,5 +1,5 @@
 import * as AuditActionTypes from "../AuditActionTypes";
-import { CreateAuditContainer, GetAudits } from "../../../Helpers/Storage/AuditStorage"
+import { CreateAuditContainer, GetAudits } from "../../../Storage/AuditStorage"
 
 export const begin = () => ({
     type: AuditActionTypes.AUDIT_LOAD

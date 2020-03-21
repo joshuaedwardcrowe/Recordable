@@ -1,5 +1,5 @@
 import * as TaskActionTypes from "../TaskActionTypes";
-import { CreateTaskContainer, GetTasks } from "../../../Helpers/Storage/TaskStorage";
+import { CreateTaskContainer, GetTasks } from "../../../Storage/TaskStorage";
 
 const begin = () => ({
     type: TaskActionTypes.TASK_LOAD

@@ -1,5 +1,5 @@
 import * as TaskActionTypes from "../TaskActionTypes";
-import { DeleteTask } from "../../../Helpers/Storage/TaskStorage";
+import { DeleteTask } from "../../../Storage/TaskStorage";
 
 const failed = taskId => ({
     type: TaskActionTypes.TASK_DELETE_FAILED,

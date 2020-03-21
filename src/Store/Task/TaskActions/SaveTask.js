@@ -1,5 +1,5 @@
 import * as TaskActionTypes from "../TaskActionTypes";
-import { AddOrUpdateTask } from "../../../Helpers/Storage/TaskStorage";
+import { AddOrUpdateTask } from "../../../Storage/TaskStorage";
 import SaveAudit from "../../Audit/AuditActions/SaveAudit";
 
 const completed = task => ({

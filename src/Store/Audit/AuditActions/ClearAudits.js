@@ -1,5 +1,5 @@
 import * as AuditActionTypes from "../AuditActionTypes";
-import { CreateAuditContainer } from "../../../Helpers/Storage/AuditStorage";
+import { CreateAuditContainer } from "../../../Storage/AuditStorage";
 
 const completed = () => ({
     type: AuditActionTypes.AUDIT_CLEAR_COMPLETE

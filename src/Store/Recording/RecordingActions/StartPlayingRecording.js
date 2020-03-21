@@ -1,6 +1,6 @@
-import { ClearTask } from "../../../Helpers/Storage/TaskStorage";
-import { GetRecording, UpdateRecordingStopped } from "../../../Helpers/Storage/RecordingStorage";
-import { GetAuditsByIds } from "../../../Helpers/Storage/AuditStorage";
+import { ClearTask } from "../../../Storage/TaskStorage";
+import { GetRecording, UpdateRecordingStopped } from "../../../Storage/RecordingStorage";
+import { GetAuditsByIds } from "../../../Storage/AuditStorage";
 import { CalculateSecondTimeDifference } from "../../../Helpers/timeHelper"
 import UnloadTasks from "../../Task/TaskActions/UnloadTasks"
 import SaveTask from "../../Task/TaskActions/SaveTask"

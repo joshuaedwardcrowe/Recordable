@@ -1,5 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { GetActiveRecording, AddRecording } from "../../../Helpers/Storage/RecordingStorage";
+import { GetActiveRecording, AddRecording } from "../../../Storage/RecordingStorage";
 
 const completed = recording => ({
     type: RecordingActionTypes.RECORDING_START_PLAYING_COMPLETE,

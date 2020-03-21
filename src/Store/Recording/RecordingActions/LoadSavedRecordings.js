@@ -1,5 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { CreateRecordingContainer, GetRecordings } from "../../../Helpers/Storage/RecordingStorage";
+import { CreateRecordingContainer, GetRecordings } from "../../../Storage/RecordingStorage";
 
 const begin = () => ({
     type: RecordingActionTypes.RECORDING_LOAD,

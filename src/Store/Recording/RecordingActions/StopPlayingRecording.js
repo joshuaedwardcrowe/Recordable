@@ -1,5 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { UpdateRecordingStopped } from "../../../Helpers/Storage/RecordingStorage";
+import { UpdateRecordingStopped } from "../../../Storage/RecordingStorage";
 
 const completed = (recordingId, stopped) => ({
     type: RecordingActionTypes.RECORDING_STOP_PLAYING_COMPLETE,

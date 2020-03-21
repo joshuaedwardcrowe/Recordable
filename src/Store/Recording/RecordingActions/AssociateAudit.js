@@ -1,5 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { AddRecordingAuditId } from "../../../Helpers/Storage/RecordingStorage";
+import { AddRecordingAuditId } from "../../../Storage/RecordingStorage";
 
 
 const completed = (recordingId, auditId) => ({

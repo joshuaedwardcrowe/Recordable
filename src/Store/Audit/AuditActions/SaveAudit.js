@@ -1,6 +1,6 @@
 import * as AuditActionTypes from "../AuditActionTypes";
-import { GetActiveRecording } from "../../../Helpers/Storage/RecordingStorage";
-import { AddAudit } from "../../../Helpers/Storage/AuditStorage";
+import { GetActiveRecording } from "../../../Storage/RecordingStorage";
+import { AddAudit } from "../../../Storage/AuditStorage";
 import AssociateAudit from "../../Recording/RecordingActions/AssociateAudit"
 
 const completed = audit => ({
