@@ -2,19 +2,19 @@
 @import "../text";
 @import "../container";
 
-.taskList {
+.auditList {
 
-    .taskList-header {
+    .auditList-header {
         display: flex;
 
-        .taskList-header-left {
+        .auditList-header-left {
             flex-grow: 2;
 
             p {
                 @include header(1.5em);
                 margin: .5em;
 
-                .taskList-count {
+                .auditList-count {
                     background-color: white;
                     vertical-align: middle;
                     padding: .25em;
@@ -27,7 +27,7 @@
             }
         }
     
-        .taskList-header-right {
+        .auditList-header-right {
             flex-grow: 1;
             text-align: right;
 
@@ -37,10 +37,10 @@
         }
     }
 
-    .taskList-container {
-        @include container(transparent, false);
+    .auditList-container {
+        @include container(white)
 
         /* Enough space for 3x recording listings. */
-        height: calc(54.65px * 10); 
+        height: calc(97px * 3); 
     }
 }

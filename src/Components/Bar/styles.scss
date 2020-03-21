@@ -2,7 +2,7 @@
 
 .bar {
     padding: 1em;
-    @include container;
+    @include container(white);
 
     > .logo {
         font-family: 'Bebas Neue';
