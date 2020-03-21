@@ -1,5 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { AddRecording } from "../../../Helpers/Storage/RecordingStorage";
+import { GetActiveRecording, AddRecording } from "../../../Helpers/Storage/RecordingStorage";
 
 const completed = recording => ({
     type: RecordingActionTypes.RECORDING_START_PLAYING_COMPLETE,
@@ -12,6 +12,13 @@ const failed = () => ({
 
 export default () => dispatch => {
     try {
+
+        const activeRecording = GetActiveRecording();
+
+        if (activeRecording) {
+            dispatch(failed());
+            return;
+        }
 
         const recording = AddRecording();
 

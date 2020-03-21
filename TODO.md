@@ -18,7 +18,7 @@
 18. ~~recording countdown~~
 19. ~~rename timestamp func from millisecond to second~~
 20. ~~move collection based business logic to some kind of service?~~
-21. stop multiple recordings being active
+21. ~~stop multiple recordings being active~~
 22. try to abstract updating a recording generic logic
 23. sort contents of collections/containers by id when you change.
 24. try to separate add/update of tasks.
