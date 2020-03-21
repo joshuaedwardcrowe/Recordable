@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import ReactList from "react-list";
 import AddIcon from "@material-ui/icons/Add";
-
 import Task from "../Task/Task";
 import TaskShape from "../../Shapes/TaskShape";
 import PrepareToAddTask from "../../Store/Task/TaskActions/PrepareToAddTask"
@@ -21,16 +21,13 @@ const TaskList = ({ tasks, addTask }) => (
                 </button>
             </div>
         </div>
-        {
-            tasks
-                .filter(task => !task.deleted)
-                .sort((a, b) => a.created < b.created)
-                .map(task => (
-                    <Task
-                        key={task.id}
-                        task={task}
-                    />))
-        }
+        <div className="taskList-container">
+            <ReactList
+                itemRenderer={(index, key) => <Task key={key} task={tasks[index]} />}
+                length={tasks.length}
+                type="uniform"
+            />
+        </div>
     </div>
 );
 

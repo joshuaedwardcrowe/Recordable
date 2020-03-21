@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import ReactList from "react-list";
 import { makeStyles } from "@material-ui/styles"
 import { Scrollbars } from "react-custom-scrollbars";
 import ListSubheader from "@material-ui/core/ListSubheader";
@@ -41,15 +42,11 @@ const AuditList = ({ audits, clearTheseAudits }) => {
             <Divider />
             <Paper elevation={5} className={classes.root}>
                 <Scrollbars autoHide>
-                    {
-                        audits
-                            .reverse()
-                            .map((audit, index) => (
-                                <Audit
-                                    key={`audit-${index}`}
-                                    audit={audit}
-                                />))
-                    }
+                    <ReactList
+                        itemRenderer={(index, key) => <Audit key={key} audit={audits[index]} />}
+                        length={audits.length}
+                        type="uniform"
+                    />
                 </Scrollbars>
             </Paper>
         </>

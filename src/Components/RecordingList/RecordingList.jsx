@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import ReactList from "react-list";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import Recording from "../Recording/Recording";
 import RecordingShape from "../../Shapes/RecordingShape";
@@ -20,12 +21,11 @@ const RecordingList = ({ recordings, startNew }) => (
             </div>
         </div>
         <div className="recordingList-container">
-            {
-                recordings
-                    .filter(task => !task.deleted)
-                    .reverse()
-                    .map(recording => (<Recording key={recording.id} recording={recording} />))
-            }
+            <ReactList
+                itemRenderer={(index, key) => <Recording key={key} recording={recordings[index]} />}
+                length={recordings.length}
+                type="uniform"
+            />
         </div>
     </div>
 );
