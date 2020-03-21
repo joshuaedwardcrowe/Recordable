@@ -38,9 +38,9 @@
     }
 
     .auditList-container {
-        @include container(white)
+        @include container(white);
 
         /* Enough space for 3x recording listings. */
-        height: calc(97px * 3); 
+        height: calc(74px * 5); 
     }
 }

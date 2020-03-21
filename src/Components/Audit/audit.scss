@@ -1,0 +1,24 @@
+@import "../buttons";
+
+.audit {
+    box-shadow: 1px 1px 1px 1px #e5e5e5;
+
+    p {
+        margin: 0;
+        user-select: none;
+    }
+
+    padding: 0.5em;
+
+    p:last-child {
+        opacity: 0.5;
+    }
+
+    .audit-oldValue {
+        color: #FF6666;
+    }
+
+    .audit-newValue {
+        color: #78EDB2;
+    }
+}

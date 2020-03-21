@@ -1,24 +1,18 @@
 import React from "react";
-import moment from "moment";
-
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-
+import { FormatToTimestamp } from "../../Helpers/timeHelper";
 import AuditShape from "../../Shapes/AuditShape";
+import "./audit.scss";
 
-export const Audit = ({ audit: { id, taskId, fieldName, oldValue, newValue, actioned } }) => {
-
-    const formattedActionedDate = moment(actioned).format('Do MMMM YYYY @ HH:mm');
-
-    return (
-        <ListItem divider>
-            <ListItemText
-                primary={`AUdit ${id} - Task #${taskId}: Field '${fieldName}' Changed from ${oldValue} => ${newValue}`}
-                secondary={`Actioned: ${formattedActionedDate}`} // TODO: get duration
-            />
-        </ListItem>
-    );
-}
+export const Audit = ({ audit: { id, taskId, fieldName, oldValue, newValue, actioned } }) => (
+    <div className="audit">
+        <p><strong>#{id}</strong> - Changed Task #{taskId}</p>
+        <p>
+            Field '{fieldName}',
+            Was: <span className="audit-oldValue">{oldValue}</span>,
+            Now: <span className="audit-newValue">{newValue}</span></p>
+        <p>Actioned: {(FormatToTimestamp(actioned))}</p>
+    </div>
+);
 
 Audit.propTypes = {
     audit: AuditShape.isRequired,
