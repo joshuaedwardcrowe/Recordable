@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -11,91 +11,116 @@ import { FormatToBreakdown, FormatToTimestamp, CalculateMillisecondTimeDifferenc
 import { RecordingShape } from "../../shapes";
 import StopRecording from "../../Store/Recording/RecordingActions/StopRecording"
 import StartPlayingRecording from "../../Store/Recording/RecordingActions/StartPlayingRecording";
+import StopPlayingRecording from "../../Store/Recording/RecordingActions/StopPlayingRecording";
 import DeleteRecording from "../../Store/Recording/RecordingActions/DeleteRecording"
 
 import "./recording.scss";
-import StopPlayingRecording from "../../Store/Recording/RecordingActions/StopPlayingRecording";
 
-export const Recording = ({ recording, playThisRecording, stopPlaying, stopThisRecording, deleteThisRecording }) => {
 
-    const millisecondsPassedCurrently = CalculateMillisecondTimeDifference(recording.started, recording.ended);
-    const [millisecondCounter, setMillisecondCounter] = useState(millisecondsPassedCurrently)
-    const [stoppingRecording, setStoppingRecording] = useState(false);
-    const [playingRecording, setPlayingRecording] = useState(false);
+export class Recording extends Component {
 
-    const stopRecording = recording => {
-        setStoppingRecording(true);
-        stopThisRecording(recording, millisecondCounter);
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            millisecondCounter: CalculateMillisecondTimeDifference(props.recording.started, props.recording.ended),
+            stoppingRecording: false,
+            playingRecording: false,
+        };
+
+        this.countupInterval = null;
+        this.countdownInterval = null;
+
+        if (!props.recording.ended) {
+            this.beginCountUp();
+        }
     }
 
-    const stopPlayingThisRecording = recordingId => {
-        setPlayingRecording(false);
-        stopPlaying(recordingId);
+    componentWillUnmount = () => {
+        clearInterval(this.countupInterval);
+        clearInterval(this.countdownInterval);
     }
 
-    const playThis = () => {
-        setPlayingRecording(true);
-        playThisRecording(recording.id);
+    beginCountUp = () => {
+        this.countupInterval = setInterval(() => {
+            if (this.state.stoppingRecording) {
+                clearInterval(this.countupInterval)
+                return;
+            }
+
+            this.setState({ millisecondCounter: this.state.millisecondCounter + 1 })
+        }, 1000)
     }
 
-    const deleteThis = () => {
-        deleteThisRecording(recording.id);
-    }
-
-    const getRecordingStatus = () => {
-        if (!recording.ended) return "started";
-        if (playingRecording) return "playing"
+    getRecordingStatus = () => {
+        if (!this.props.recording.ended) return "started";
+        if (this.state.playingRecording) return "playing"
         return "";
     }
 
-    useEffect(() => {
-        if (!recording.ended) {
-            const interval = setInterval(() => {
-                if (stoppingRecording) {
-                    clearInterval(interval);
-                    return;
-                }
+    stop = () => {
+        this.setState({ stoppingRecording: true });
+        this.props.stopThisRecording(this.props.recording, this.state.millisecondCounter);
+    }
 
-                setMillisecondCounter(millisecondCounter + 1)
-            }, 1000)
-            return () => clearInterval(interval);
-        }
-    })
+    stopPlaying = () => {
+        clearInterval(this.countdownInterval);
+        this.setState({ playingRecording: false });
+        this.props.stopPlaying(this.props.recording.id);
+    }
 
-    return (
-        <div className={`recording ${getRecordingStatus()}`}>
+    play = () => {
+        this.setState({ playingRecording: true });
+        this.props.playThisRecording(this.props.recording.id);
+
+        this.countdownInterval = setInterval(() => {
+            if (!this.state.millisecondCounter) {
+                clearInterval(this.countdownInterval);
+            }
+
+            this.setState({ millisecondCounter: this.state.millisecondCounter - 1 });
+        }, 1000)
+    }
+
+    delete = () => {
+        this.props.deleteThisRecording(this.props.recording.id);
+    }
+
+    render = () => (
+        <div className={`recording ${this.getRecordingStatus()}`}>
             <div className="recording-left">
-                <p>Started at {FormatToTimestamp(recording.started)}</p>
-                <p>Duration: {FormatToBreakdown(millisecondCounter)}</p>
+                <p>Started at {FormatToTimestamp(this.props.recording.started)}</p>
+                <p>Duration: {FormatToBreakdown(this.state.millisecondCounter)}</p>
             </div>
             <div className="recording-right">
                 {
                     // If the recording has no .ended value, it hasn't finished recording.
-                    !recording.ended &&
-                    <button onClick={() => stopRecording(recording)}>
+                    !this.props.recording.ended &&
+                    <button onClick={this.stop}>
                         <StopIcon />
                     </button>
                 }
                 {
                     // If we're not playing the recording, it has not ended and been played in the first place.
-                    playingRecording &&
-                    <button onClick={() => stopPlayingThisRecording(recording.id)}>
+                    this.state.playingRecording &&
+                    <button onClick={this.stopPlaying}>
                         <StopIcon />
                     </button>
                 }
                 {
                     // if we're not currently playing the recording and it is not currently still recording, we can play it.
-                    !playingRecording && recording.ended &&
-                    <button onClick={playThis}>
+                    !this.state.playingRecording && this.props.recording.ended &&
+                    <button onClick={this.play}>
                         <PlayArrowIcon />
                     </button>
                 }
-                <button onClick={deleteThis}>
+                <button onClick={this.delete}>
                     <DeleteIcon />
                 </button>
             </div>
         </div >
     )
+
 }
 
 Recording.propTypes = {
@@ -108,7 +133,6 @@ Recording.propTypes = {
 };
 
 Recording.defaultProps = {
-    recordingActiveId: null,
     stopThisRecording: () => { },
     playThisRecording: () => { },
     pauseThisRecording: () => { },
