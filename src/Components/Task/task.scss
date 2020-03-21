@@ -1,0 +1,73 @@
+@import "../buttons";
+
+.task {
+    
+    p {
+        margin: 0;
+        user-select: none;
+    }
+
+    .task-display {
+        display: flex;
+
+        .task-display-left {
+            flex-grow: 2;
+            padding: 0.5em;
+
+            p:last-child {
+                opacity: 0.5;
+            }
+        }
+
+        .task-display-right {
+            flex-grow: 1;
+            text-align: right;
+
+            button {
+                @include iconButton;
+            }
+        }
+    }
+
+    .task-editing {
+        display: flex;
+
+        .task-editing-left {
+            flex-grow: 2;
+            padding: 0.5em;
+            padding-left: 0;
+
+            .task-editing-input {
+                display: inline-block;
+                margin: 0.5em;
+                margin-top: 0;
+                margin-bottom: 0;
+
+                input {
+                    border: 0;
+                    border-bottom: 2px solid black;
+                    padding: 0.5em;
+                    padding-left: 0;
+                    background-color: transparent;
+                    width: 20vw;
+                    font-size: 1em;
+
+                    &:focus {
+                        outline: 0;
+                    }
+                }
+            }
+        }
+
+        .task-editing-right {
+            flex-grow: 1;
+            text-align: right;
+            
+            button {
+                @include iconButton;
+            }
+        }
+    }
+
+    
+}

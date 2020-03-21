@@ -21,7 +21,6 @@ const TaskList = ({ tasks, addTask }) => (
                 </button>
             </div>
         </div>
-
         {
             tasks
                 .filter(task => !task.deleted)
