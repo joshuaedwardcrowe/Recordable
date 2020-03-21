@@ -8,27 +8,31 @@ import AuditShape from "../../Shapes/AuditShape"
 import ClearAudits from "../../Store/Audit/AuditActions/ClearAudits"
 import "./auditList.scss";
 
-const AuditList = ({ audits, clearTheseAudits }) => (
-    <div className="auditList">
-        <div className="auditList-header">
-            <div className="auditList-header-left">
-                <p>Your Audits <span className="auditList-count">({audits.length})</span></p>
+const AuditList = ({ audits, clearTheseAudits }) => {
+    const reversedAudits = audits.reverse();
+    return (
+        <div className="auditList">
+            <div className="auditList-header">
+                <div className="auditList-header-left">
+                    <p>Your Audits <span className="auditList-count">({audits.length})</span></p>
+                </div>
+                <div className="auditList-header-right">
+                    <button onClick={clearTheseAudits}>
+                        <CloseIcon />
+                    </button>
+                </div>
             </div>
-            <div className="auditList-header-right">
-                <button onClick={clearTheseAudits}>
-                    <CloseIcon />
-                </button>
+            <div className="auditList-container">
+                <ReactList
+                    itemRenderer={(index, key) => <Audit key={key} audit={reversedAudits[index]} />}
+                    length={audits.length}
+                    type="uniform"
+                    pageSize={5}
+                />
             </div>
         </div>
-        <div className="auditList-container">
-            <ReactList
-                itemRenderer={(index, key) => <Audit key={key} audit={audits[index]} />}
-                length={audits.length}
-                type="uniform"
-            />
-        </div>
-    </div>
-);
+    );
+}
 
 AuditList.propTypes = {
     actions: PropTypes.arrayOf(AuditShape),
