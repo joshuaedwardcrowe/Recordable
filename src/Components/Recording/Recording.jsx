@@ -6,7 +6,7 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StopIcon from "@material-ui/icons/Stop";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import { FormatToBreakdown, FormatToTimestamp, CalculateSecondTimeDifference } from "../../Helpers/timeHelper"
+import { FormatToBreakdown, FormatToTimestamp, CalculateSecondTimeDifference, CalculateDateReached } from "../../Helpers/timeHelper"
 
 import { RecordingShape } from "../../shapes";
 import StopRecording from "../../Store/Recording/RecordingActions/StopRecording"
@@ -77,7 +77,8 @@ export class Recording extends Component {
 
     stop = () => {
         this.setState({ stoppingRecording: true });
-        this.props.stopThisRecording(this.props.recording, this.state.millisecondCounter);
+        const reached = CalculateDateReached(this.props.recording.started, this.state.millisecondCounter);
+        this.props.stopThisRecording(this.props.recording.id, reached.toISOString());
     }
 
     stopPlaying = () => {

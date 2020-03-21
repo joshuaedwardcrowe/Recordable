@@ -1,5 +1,5 @@
 import * as AuditActionTypes from "../AuditActionTypes";
-import { AUDIT_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { CreateAuditContainer, GetAudits } from "../../../Helpers/Storage/AuditStorage"
 
 export const begin = () => ({
     type: AuditActionTypes.AUDIT_LOAD
@@ -18,15 +18,23 @@ export default () => dispatch => {
     dispatch(begin());
 
     try {
-        const { audits } = getSavedCollection(AUDIT_COLLECTION);
+        const audits = GetAudits();
 
-        if (audits.length) {
-            dispatch(completed(audits))
-        } else {
-            dispatch(failed())
+        if (!audits) {
+            CreateAuditContainer();
+            dispatch(failed());
         }
+
+        if (!audits.length) {
+            dispatch(completed(audits));
+        } else {
+            dispatch(failed());
+        }
+
     } catch (error) {
-        updateSavedCollection(AUDIT_COLLECTION, { audits: [] })
+
+        CreateAuditContainer();
         dispatch(failed())
+
     }
 }

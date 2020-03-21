@@ -1,23 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { RECORDING_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
-
-const addToCollection = () => {
-    const recordingContainer = getSavedCollection(RECORDING_COLLECTION);
-    const latestRecording = recordingContainer.recordings[recordingContainer.recordings.length - 1]
-
-    const recording = {
-        id: latestRecording ? latestRecording.id + 1 : 1,
-        started: new Date().toISOString(),
-        stopped: false,
-        auditIds: [],
-    }
-    recordingContainer.recordings.push(recording);
-
-    updateSavedCollection(RECORDING_COLLECTION, recordingContainer);
-
-    return recording;
-}
-
+import { AddRecording } from "../../../Helpers/Storage/RecordingStorage";
 
 const completed = recording => ({
     type: RecordingActionTypes.RECORDING_START_PLAYING_COMPLETE,
@@ -31,7 +13,7 @@ const failed = () => ({
 export default () => dispatch => {
     try {
 
-        const recording = addToCollection();
+        const recording = AddRecording();
 
         dispatch(completed(recording))
 

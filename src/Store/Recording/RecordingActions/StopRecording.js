@@ -1,35 +1,22 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { RECORDING_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
-import { CalculateDateReached } from "../../../Helpers/timeHelper";
+import { UpdateRecordingEnded } from "../../../Helpers/Storage/RecordingStorage";
 
-const updateEndedDate = (recording, millisecondsRecorded) => {
-    const recordingContainer = getSavedCollection(RECORDING_COLLECTION);
-    const existingRecording = recordingContainer.recordings.find(({ id }) => recording.id === id);
-    const otherRecordings = recordingContainer.recordings.filter(x => x.id !== existingRecording.id);
 
-    var timeReached = CalculateDateReached(existingRecording.started, millisecondsRecorded);
-    existingRecording.ended = timeReached.toISOString();
-    recordingContainer.recordings = [...otherRecordings, existingRecording]
-
-    updateSavedCollection(RECORDING_COLLECTION, recordingContainer);
-    return existingRecording;
-}
-
-const completed = recording => ({
+const completed = (recordingId, ended) => ({
     type: RecordingActionTypes.RECORDING_STOP_COMPLETE,
-    payload: { recording }
+    payload: { recordingId, ended }
 })
 
 const failed = () => ({
     type: RecordingActionTypes.RECORDING_STOP_FAILED,
 })
 
-export default (recording, millisecondsRecorded) => dispatch => {
+export default (recordingId, ended) => dispatch => {
     try {
 
-        const updatedRecording = updateEndedDate(recording, millisecondsRecorded);
+        UpdateRecordingEnded(recordingId, ended);
 
-        dispatch(completed(updatedRecording))
+        dispatch(completed(recordingId, ended))
 
     } catch (error) {
         dispatch(failed())

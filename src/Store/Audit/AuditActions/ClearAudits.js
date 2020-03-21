@@ -1,5 +1,5 @@
 import * as AuditActionTypes from "../AuditActionTypes";
-import { AUDIT_COLLECTION, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { CreateAuditContainer } from "../../../Helpers/Storage/AuditStorage";
 
 const completed = () => ({
     type: AuditActionTypes.AUDIT_CLEAR_COMPLETE
@@ -11,7 +11,7 @@ const failed = () => ({
 
 export default () => dispatch => {
     try {
-        updateSavedCollection(AUDIT_COLLECTION, { audits: [] })
+        CreateAuditContainer();
         dispatch(completed())
     } catch (error) {
         dispatch(failed())

@@ -1,5 +1,5 @@
 import * as TaskActionTypes from "../TaskActionTypes";
-import { TASK_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { AddOrUpdateTask } from "../../../Helpers/Storage/TaskStorage";
 import SaveAudit from "../../Audit/AuditActions/SaveAudit";
 
 const completed = task => ({
@@ -12,27 +12,9 @@ const failed = task => ({
     payload: { task }
 })
 
-const addToCollection = (task, fieldName, newValue) => {
-    const taskContainer = getSavedCollection(TASK_COLLECTION);
-    const existingTask = taskContainer.tasks.find(({ id }) => task.id === id);
-
-    if (!existingTask) {
-        task.created = new Date().toISOString()
-        task[fieldName] = newValue;
-        taskContainer.tasks.push(task);
-        updateSavedCollection(TASK_COLLECTION, taskContainer);
-        return task;
-    }
-
-    existingTask[fieldName] = newValue;
-    updateSavedCollection(TASK_COLLECTION, taskContainer);
-
-    return existingTask;
-}
-
 export default (task, fieldName, newValue) => dispatch => {
     try {
-        const savedTask = addToCollection(task, fieldName, newValue);
+        const savedTask = AddOrUpdateTask(task, fieldName, newValue);
 
         dispatch(SaveAudit(task, fieldName, newValue))
         dispatch(completed(savedTask))

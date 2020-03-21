@@ -1,5 +1,5 @@
 import * as TaskActionTypes from "../TaskActionTypes";
-import { TASK_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { CreateTaskContainer, GetTasks } from "../../../Helpers/Storage/TaskStorage";
 
 const begin = () => ({
     type: TaskActionTypes.TASK_LOAD
@@ -18,7 +18,12 @@ export default () => dispatch => {
     dispatch(begin())
 
     try {
-        const { tasks } = getSavedCollection(TASK_COLLECTION)
+        const tasks = GetTasks();
+
+        if (!tasks) {
+            CreateTaskContainer();
+            dispatch(failed());
+        }
 
         if (tasks.length) {
             dispatch(completed(tasks));
@@ -26,7 +31,7 @@ export default () => dispatch => {
             dispatch(failed())
         }
     } catch (error) {
-        updateSavedCollection(TASK_COLLECTION, { tasks: [] })
+        CreateTaskContainer();
         dispatch(failed())
     }
 }

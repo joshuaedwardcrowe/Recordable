@@ -1,29 +1,8 @@
-import { RECORDING_COLLECTION, AUDIT_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { GetRecording, UpdateRecordingStopped } from "../../../Helpers/Storage/RecordingStorage";
+import { GetAudits } from "../../../Helpers/Storage/AuditStorage";
 import { CalculateSecondTimeDifference } from "../../../Helpers/timeHelper"
 import UnloadTasks from "../../Task/TaskActions/UnloadTasks"
 import SaveTask from "../../Task/TaskActions/SaveTask"
-
-const updateStoppedStatus = recordingId => {
-    const recordingContainer = getSavedCollection(RECORDING_COLLECTION);
-    const existingRecording = recordingContainer.recordings.find(recording => recording.id === recordingId);
-    const otherRecordings = recordingContainer.recordings.filter(x => x.id !== existingRecording.id);
-
-    existingRecording.stopped = false;
-    recordingContainer.recordings = [...otherRecordings, existingRecording]
-
-    updateSavedCollection(RECORDING_COLLECTION, recordingContainer);
-    return existingRecording;
-}
-
-const getRecording = recordingId => {
-    const { recordings } = getSavedCollection(RECORDING_COLLECTION);
-    return recordings.find(recording => recording.id === recordingId);
-}
-
-const getAudits = auditIds => {
-    const { audits } = getSavedCollection(AUDIT_COLLECTION);
-    return audits.filter(audit => auditIds.includes(audit.id));
-}
 
 const applyAudits = (recording, audits, dispatch) => {
 
@@ -33,7 +12,7 @@ const applyAudits = (recording, audits, dispatch) => {
     const interval = setInterval(() => {
 
         // Step 1: Get the current recording in this interval.
-        const currentRecording = getRecording(recording.id);
+        const currentRecording = GetRecording(recording.id);
 
         if (!currentRecording || currentRecording.stopped) {
             clearInterval(interval);
@@ -55,14 +34,13 @@ const applyAudits = (recording, audits, dispatch) => {
 
 export default recordingId => dispatch => {
 
-    // Step 1.2: Ensure the recording isnt stopped.
-    updateStoppedStatus(recordingId);
+    UpdateRecordingStopped(recordingId, false);
 
     // Step 1: Get this recording. 
-    const recording = getRecording(recordingId);
+    const recording = GetRecording(recordingId);
 
     // Step 2: Get all audits currently saved audits with these IDs.
-    const audits = getAudits(recording.auditIds);
+    const audits = GetAudits(recording.auditIds);
 
     // Step 3: If there are no audits, end the action.
     if (!audits.length) return;

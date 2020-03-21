@@ -8,9 +8,8 @@ export const TaskShape = PropTypes.shape({
     deleted: PropTypes.string,
 });
 
-
 export const AuditShape = PropTypes.shape({
-    Id: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
     taskId: PropTypes.number.isRequired,
     fieldName: PropTypes.string.isRequired,
     oldValue: PropTypes.string,

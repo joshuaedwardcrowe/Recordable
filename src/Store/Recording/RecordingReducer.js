@@ -34,10 +34,10 @@ export const RecordingReducer = (state = initialState, action) => {
         case RecordingActionTypes.RECORDING_STOP_PLAYING_COMPLETE:
         case RecordingActionTypes.RECORDING_STOP_COMPLETE:
             const currentRecordings = Array.from(state.recordings);
-            const currentRecording = currentRecordings.find(recording => recording.id === action.payload.recording.id)
+            const currentRecording = currentRecordings.find(recording => recording.id === action.payload.recordingId)
             const indexOf = currentRecordings.indexOf(currentRecording);
 
-            currentRecordings.splice(indexOf, 1, action.payload.recording);
+            currentRecordings.splice(indexOf, 1, { ...currentRecording, ended: action.payload.ended });
 
             return {
                 ...state,

@@ -1,5 +1,5 @@
 import * as TaskActionTypes from "../TaskActionTypes";
-import { TASK_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { DeleteTask } from "../../../Helpers/Storage/TaskStorage";
 
 const failed = taskId => ({
     type: TaskActionTypes.TASK_DELETE_FAILED,
@@ -11,15 +11,9 @@ const completed = taskId => ({
     payload: { taskId }
 })
 
-const deleteInCollection = taskId => {
-    const taskContainer = getSavedCollection(TASK_COLLECTION);
-    taskContainer.tasks = taskContainer.tasks.filter(({ id }) => id !== taskId);
-    updateSavedCollection(TASK_COLLECTION, taskContainer);
-}
-
 export default taskId => dispatch => {
     try {
-        deleteInCollection(taskId);
+        DeleteTask(taskId);
         dispatch(completed(taskId))
     } catch (error) {
         dispatch(failed(taskId))

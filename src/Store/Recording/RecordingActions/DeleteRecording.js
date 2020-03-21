@@ -1,5 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { RECORDING_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { DeleteRecording } from "../../../Helpers/Storage/RecordingStorage";
 
 const failed = recordingId => ({
     type: RecordingActionTypes.RECORDING_DELETE_FAILED,
@@ -11,15 +11,9 @@ const completed = recordingId => ({
     payload: { recordingId }
 })
 
-const deleteInCollection = recordingId => {
-    const recordingContainer = getSavedCollection(RECORDING_COLLECTION);
-    recordingContainer.recordings = recordingContainer.recordings.filter(({ id }) => id !== recordingId);
-    updateSavedCollection(RECORDING_COLLECTION, recordingContainer);
-}
-
 export default recordingId => dispatch => {
     try {
-        deleteInCollection(recordingId);
+        DeleteRecording(recordingId);
         dispatch(completed(recordingId))
     } catch (error) {
         dispatch(failed(recordingId))

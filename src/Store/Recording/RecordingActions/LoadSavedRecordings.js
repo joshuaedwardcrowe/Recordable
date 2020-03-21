@@ -1,5 +1,5 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { RECORDING_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { CreateRecordingContainer, GetRecordings } from "../../../Helpers/Storage/RecordingStorage";
 
 const begin = () => ({
     type: RecordingActionTypes.RECORDING_LOAD,
@@ -18,7 +18,12 @@ export default () => dispatch => {
     dispatch(begin());
 
     try {
-        const { recordings } = getSavedCollection(RECORDING_COLLECTION);
+        const recordings = GetRecordings();
+
+        if (!recordings) {
+            CreateRecordingContainer();
+            dispatch(failed())
+        }
 
         if (recordings.length) {
             dispatch(completed(recordings))
@@ -26,7 +31,7 @@ export default () => dispatch => {
             dispatch(failed())
         }
     } catch (error) {
-        updateSavedCollection(RECORDING_COLLECTION, { recordings: [] })
+        CreateRecordingContainer()
         dispatch(failed())
     }
 }

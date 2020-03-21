@@ -33,7 +33,13 @@ export default (state = initialTaskState, action) => {
 
             return {
                 ...state,
-                tasks: [...state.tasks, { id: mostRecentTask ? mostRecentTask.id + 1 : 1 }]
+                tasks: [
+                    ...state.tasks,
+                    {
+                        id: mostRecentTask ? mostRecentTask.id + 1 : 1,
+                        created: new Date().toISOString()
+                    }
+                ]
             }
         case TaskActionTypes.TASK_ADD_UNPREPARE:
             return {

@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 
 const Task = ({ task, saveThisTask, unprepareThisTask, deleteThisTask }) => {
     const classes = useStyles();
-    const [editing, setEditing] = useState(!task.created);
+    const [editing, setEditing] = useState(!task.name && !task.description);
 
     const invertEditing = () => !task.created ? unprepareThisTask(task.id) : setEditing(!editing);
     const handleChange = ({ target: { name, value } }) => saveThisTask(task, name, value)

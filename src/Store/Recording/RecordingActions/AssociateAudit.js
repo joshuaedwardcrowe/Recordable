@@ -1,24 +1,6 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
-import { RECORDING_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { AddRecordingAuditId } from "../../../Helpers/Storage/RecordingStorage";
 
-const addAuditId = (recording, auditId) => {
-    const recordingContainer = getSavedCollection(RECORDING_COLLECTION);
-    const existingRecording = recordingContainer.recordings.find(({ id }) => recording.id === id);
-    const otherRecordings = recordingContainer.recordings.filter(x => x.id !== existingRecording.id);
-
-    recordingContainer.recordings = [
-        ...otherRecordings,
-        {
-            ...existingRecording,
-            auditIds: [
-                ...existingRecording.auditIds,
-                auditId
-            ]
-        }
-    ]
-
-    updateSavedCollection(RECORDING_COLLECTION, recordingContainer);
-}
 
 const completed = recording => ({
     type: RecordingActionTypes.RECORDING_ASSOCIATE_AUDIT_COMPLETE,
@@ -33,7 +15,7 @@ const failed = recording => ({
 export default (recording, auditId) => dispatch => {
     try {
 
-        addAuditId(recording, auditId);
+        AddRecordingAuditId(recording, auditId);
 
         dispatch(completed())
 
