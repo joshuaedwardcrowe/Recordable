@@ -3,7 +3,6 @@ import * as RecordingActionTypes from "./RecordingActionTypes";
 const initialState = {
     recordings: [],
     recordingsLoading: false,
-    recordingActiveId: null,
 }
 
 export const RecordingReducer = (state = initialState, action) => {
@@ -24,7 +23,7 @@ export const RecordingReducer = (state = initialState, action) => {
                 ...state,
                 recordingsLoading: false,
             }
-        case RecordingActionTypes.RECORDING_START_COMPLETE: {
+        case RecordingActionTypes.RECORDING_START_PLAYING_COMPLETE: {
             return {
                 ...state,
                 recordings: [...state.recordings, action.payload.recording],
@@ -32,6 +31,7 @@ export const RecordingReducer = (state = initialState, action) => {
             }
         }
         case RecordingActionTypes.RECORDING_ASSOCIATE_AUDIT_COMPLETE:
+        case RecordingActionTypes.RECORDING_STOP_PLAYING_COMPLETE:
         case RecordingActionTypes.RECORDING_STOP_COMPLETE:
             const currentRecordings = Array.from(state.recordings);
             const currentRecording = currentRecordings.find(recording => recording.id === action.payload.recording.id)
@@ -43,13 +43,6 @@ export const RecordingReducer = (state = initialState, action) => {
                 ...state,
                 recordings: currentRecordings
             }
-
-        case RecordingActionTypes.RECORDING_PLAYING: {
-            return {
-                ...state,
-                recordingActiveId: action.payload.recordingId,
-            }
-        }
         case RecordingActionTypes.RECORDING_DELETE_COMPLETE: {
             return {
                 ...state,

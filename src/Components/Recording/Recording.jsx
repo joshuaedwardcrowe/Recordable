@@ -10,28 +10,37 @@ import { FormatToBreakdown, FormatToTimestamp, CalculateMillisecondTimeDifferenc
 
 import { RecordingShape } from "../../shapes";
 import StopRecording from "../../Store/Recording/RecordingActions/StopRecording"
-import PlayRecording from "../../Store/Recording/RecordingActions/PlayRecording";
+import StartPlayingRecording from "../../Store/Recording/RecordingActions/StartPlayingRecording";
 import DeleteRecording from "../../Store/Recording/RecordingActions/DeleteRecording"
 
 import "./recording.scss";
+import StopPlayingRecording from "../../Store/Recording/RecordingActions/StopPlayingRecording";
 
-export const Recording = ({ recording, playThisRecording, stopThisRecording, deleteThisRecording }) => {
+export const Recording = ({ recording, playThisRecording, stopPlaying, stopThisRecording, deleteThisRecording }) => {
 
     const millisecondsPassedCurrently = CalculateMillisecondTimeDifference(recording.started, recording.ended);
     const [millisecondCounter, setMillisecondCounter] = useState(millisecondsPassedCurrently)
     const [stoppingRecording, setStoppingRecording] = useState(false);
     const [playingRecording, setPlayingRecording] = useState(false);
 
-    const stopThis = () => {
+    const stopRecording = recording => {
         setStoppingRecording(true);
         stopThisRecording(recording, millisecondCounter);
+    }
+
+    const stopPlayingThisRecording = recordingId => {
+        setPlayingRecording(false);
+        stopPlaying(recordingId);
     }
 
     const playThis = () => {
         setPlayingRecording(true);
         playThisRecording(recording.id);
     }
-    const deleteThis = () => deleteThisRecording(recording.id);
+
+    const deleteThis = () => {
+        deleteThisRecording(recording.id);
+    }
 
     const getRecordingStatus = () => {
         if (!recording.ended) return "started";
@@ -60,14 +69,32 @@ export const Recording = ({ recording, playThisRecording, stopThisRecording, del
                 <p>Duration: {FormatToBreakdown(millisecondCounter)}</p>
             </div>
             <div className="recording-right">
-                <button onClick={recording.ended ? playThis : stopThis}>
-                    {recording.ended ? <PlayArrowIcon /> : <StopIcon />}
-                </button>
+                {
+                    // If the recording has no .ended value, it hasn't finished recording.
+                    !recording.ended &&
+                    <button onClick={() => stopRecording(recording)}>
+                        <StopIcon />
+                    </button>
+                }
+                {
+                    // If we're not playing the recording, it has not ended and been played in the first place.
+                    playingRecording &&
+                    <button onClick={() => stopPlayingThisRecording(recording.id)}>
+                        <StopIcon />
+                    </button>
+                }
+                {
+                    // if we're not currently playing the recording and it is not currently still recording, we can play it.
+                    !playingRecording && recording.ended &&
+                    <button onClick={playThis}>
+                        <PlayArrowIcon />
+                    </button>
+                }
                 <button onClick={deleteThis}>
                     <DeleteIcon />
                 </button>
             </div>
-        </div>
+        </div >
     )
 }
 
@@ -76,6 +103,7 @@ Recording.propTypes = {
     recordingActiveId: PropTypes.number,
     stopThisRecording: PropTypes.func,
     playThisRecording: PropTypes.func,
+    pauseThisRecording: PropTypes.func,
     deleteThisRecording: PropTypes.func,
 };
 
@@ -83,6 +111,7 @@ Recording.defaultProps = {
     recordingActiveId: null,
     stopThisRecording: () => { },
     playThisRecording: () => { },
+    pauseThisRecording: () => { },
     deleteThisRecording: () => { },
 }
 
@@ -90,7 +119,8 @@ const mapStateToProps = () => ({})
 
 const mapDispatchToProps = dispatch => ({
     stopThisRecording: (recording, millisecondsRecorded) => dispatch(StopRecording(recording, millisecondsRecorded)),
-    playThisRecording: recordingId => dispatch(PlayRecording(recordingId)),
+    playThisRecording: recordingId => dispatch(StartPlayingRecording(recordingId)),
+    stopPlaying: recordingId => dispatch(StopPlayingRecording(recordingId)),
     deleteThisRecording: recordingId => dispatch(DeleteRecording(recordingId))
 });
 

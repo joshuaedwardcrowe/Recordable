@@ -15,3 +15,4 @@
 15. remove active recording id, you can just check if theres an ended value.
 16. ~~rename stoprecording to saverecording~~
 17. ~~rename auditIds~~
+18. recording countdown

@@ -8,6 +8,7 @@ const addToCollection = () => {
     const recording = {
         id: latestRecording ? latestRecording.id + 1 : 1,
         started: new Date().toISOString(),
+        stopped: false,
         auditIds: [],
     }
     recordingContainer.recordings.push(recording);
@@ -19,12 +20,12 @@ const addToCollection = () => {
 
 
 const completed = recording => ({
-    type: RecordingActionTypes.RECORDING_START_COMPLETE,
+    type: RecordingActionTypes.RECORDING_START_PLAYING_COMPLETE,
     payload: { recording }
 })
 
 const failed = () => ({
-    type: RecordingActionTypes.RECORDING_START_FAILED,
+    type: RecordingActionTypes.RECORDING_START_PLAYING_FAILED,
 })
 
 export default () => dispatch => {
