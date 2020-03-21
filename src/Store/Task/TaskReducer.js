@@ -37,6 +37,8 @@ export default (state = initialTaskState, action) => {
                     ...state.tasks,
                     {
                         id: mostRecentTask ? mostRecentTask.id + 1 : 1,
+                        name: null,
+                        description: null,
                         created: new Date().toISOString()
                     }
                 ]

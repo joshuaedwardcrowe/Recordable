@@ -19,7 +19,10 @@ export default (task, fieldName, newValue) => dispatch => {
         const savedAudit = AddAudit(task.id, fieldName, task[fieldName], newValue);
         const activeRecording = GetActiveRecording();
 
-        dispatch(AssociateAudit(activeRecording, savedAudit.id))
+        if (activeRecording != null) {
+            dispatch(AssociateAudit(activeRecording.id, savedAudit.id))
+        }
+
         dispatch(completed(savedAudit))
 
     } catch (error) {

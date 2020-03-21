@@ -32,6 +32,18 @@ export const AddOrUpdateTask = (task, fieldName, newValue) => {
     return foundTask;
 }
 
+export const ClearTask = taskId => {
+    const container = getContainer(TASK_CONTAINER);
+
+    let foundTask = container.tasks.find(task => task.id === taskId);
+    const otherTasks = container.tasks.filter(task => task.id !== foundTask.id);
+
+    foundTask = { ...foundTask, name: "", description: "" };
+    container.tasks = [...otherTasks, foundTask];
+
+    updateContainer(TASK_CONTAINER, container);
+}
+
 export const DeleteTask = taskId => {
     const container = getContainer(TASK_CONTAINER);
     container.tasks = container.tasks.filter(task => task.id !== taskId);

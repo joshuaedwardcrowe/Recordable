@@ -57,7 +57,7 @@ export const AddRecordingAuditId = (recordingId, auditId) => {
                 auditId
             ]
         }
-    ]
+    ];
 
     updateContainer(RECORDING_CONTAINER, container);
 }

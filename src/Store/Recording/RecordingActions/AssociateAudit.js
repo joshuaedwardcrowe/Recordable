@@ -2,9 +2,9 @@ import * as RecordingActionTypes from "../RecordingActionTypes";
 import { AddRecordingAuditId } from "../../../Helpers/Storage/RecordingStorage";
 
 
-const completed = recording => ({
+const completed = (recordingId, auditId) => ({
     type: RecordingActionTypes.RECORDING_ASSOCIATE_AUDIT_COMPLETE,
-    payload: { recording }
+    payload: { recordingId, auditId }
 })
 
 const failed = recording => ({
@@ -12,12 +12,12 @@ const failed = recording => ({
     payload: { recording }
 })
 
-export default (recording, auditId) => dispatch => {
+export default (recordingId, auditId) => dispatch => {
     try {
 
-        AddRecordingAuditId(recording, auditId);
+        AddRecordingAuditId(recordingId, auditId);
 
-        dispatch(completed())
+        dispatch(completed(recordingId, auditId))
 
     } catch (error) {
         dispatch(failed())

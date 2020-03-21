@@ -25,7 +25,7 @@ export default () => dispatch => {
             dispatch(failed());
         }
 
-        if (!audits.length) {
+        if (audits.length) {
             dispatch(completed(audits));
         } else {
             dispatch(failed());

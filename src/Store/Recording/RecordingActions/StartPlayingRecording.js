@@ -1,10 +1,23 @@
+import { ClearTask } from "../../../Helpers/Storage/TaskStorage";
 import { GetRecording, UpdateRecordingStopped } from "../../../Helpers/Storage/RecordingStorage";
-import { GetAudits } from "../../../Helpers/Storage/AuditStorage";
+import { GetAuditsByIds } from "../../../Helpers/Storage/AuditStorage";
 import { CalculateSecondTimeDifference } from "../../../Helpers/timeHelper"
 import UnloadTasks from "../../Task/TaskActions/UnloadTasks"
 import SaveTask from "../../Task/TaskActions/SaveTask"
 
-const applyAudits = (recording, audits, dispatch) => {
+const ResetTasksToOriginalState = audits => {
+    const distinctAuditIds = audits
+        .map(audit => audit.id)
+        .filter((audit, index, self) => self.indexOf(audit) === index);
+
+    const distinctAudits = audits.filter(audit => distinctAuditIds.includes(audit.id));
+
+    for (let { taskId } of distinctAudits) {
+        ClearTask(taskId);
+    }
+}
+
+const ApplyAudits = (recording, audits, dispatch) => {
 
     const differenceInMilliseconds = CalculateSecondTimeDifference(recording.started, recording.ended) * 1000;
     const timeout = differenceInMilliseconds / audits.length;
@@ -40,7 +53,7 @@ export default recordingId => dispatch => {
     const recording = GetRecording(recordingId);
 
     // Step 2: Get all audits currently saved audits with these IDs.
-    const audits = GetAudits(recording.auditIds);
+    const audits = GetAuditsByIds(recording.auditIds);
 
     // Step 3: If there are no audits, end the action.
     if (!audits.length) return;
@@ -48,6 +61,8 @@ export default recordingId => dispatch => {
     // Step 4: If there are audits, we clear redux's Task state so we can see it appear.
     dispatch(UnloadTasks());
 
-    applyAudits(recording, audits, dispatch);
+    ResetTasksToOriginalState(audits);
+
+    ApplyAudits(recording, audits, dispatch);
 
 }

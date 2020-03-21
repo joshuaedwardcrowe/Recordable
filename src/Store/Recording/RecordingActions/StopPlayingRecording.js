@@ -1,9 +1,9 @@
 import * as RecordingActionTypes from "../RecordingActionTypes";
 import { UpdateRecordingStopped } from "../../../Helpers/Storage/RecordingStorage";
 
-const completed = recording => ({
+const completed = (recordingId, stopped) => ({
     type: RecordingActionTypes.RECORDING_STOP_PLAYING_COMPLETE,
-    payload: { recording }
+    payload: { recordingId, stopped }
 })
 
 const failed = () => ({
@@ -13,9 +13,9 @@ const failed = () => ({
 export default recordingId => dispatch => {
     try {
 
-        const updatedRecording = UpdateRecordingStopped(recordingId, true);
+        UpdateRecordingStopped(recordingId, true);
 
-        dispatch(completed(updatedRecording))
+        dispatch(completed(recordingId, true))
 
     } catch (error) {
         dispatch(failed())
