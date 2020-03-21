@@ -15,7 +15,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import { TaskShape } from "../../shapes";
+import TaskShape from "../../Shapes/TaskShape";
 import UnprepareToAddTask from "../../Store/Task/TaskActions/UnprepareToAddTask"
 import SaveTask from "../../Store/Task/TaskActions/SaveTask"
 import DeleteTask from "../../Store/Task/TaskActions/DeleteTask"

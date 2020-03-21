@@ -4,7 +4,7 @@ import moment from "moment";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import { AuditShape } from "../../shapes";
+import AuditShape from "../../Shapes/AuditShape";
 
 export const Audit = ({ audit: { taskId, fieldName, oldValue, newValue, actioned } }) => {
 

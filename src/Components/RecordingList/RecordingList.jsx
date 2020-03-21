@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import Recording from "../Recording/Recording";
-import { RecordingShape } from "../../shapes";
+import RecordingShape from "../../Shapes/RecordingShape";
 import StartRecording from "../../Store/Recording/RecordingActions/StartRecording"
 import "./recordingList.scss"
 

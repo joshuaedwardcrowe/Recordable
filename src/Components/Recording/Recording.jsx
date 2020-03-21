@@ -8,7 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 import { FormatToBreakdown, FormatToTimestamp, CalculateSecondTimeDifference, CalculateDateReached } from "../../Helpers/timeHelper"
 
-import { RecordingShape } from "../../shapes";
+import RecordingShape from "../../Shapes/RecordingShape";
 import StopRecording from "../../Store/Recording/RecordingActions/StopRecording"
 import StartPlayingRecording from "../../Store/Recording/RecordingActions/StartPlayingRecording";
 import StopPlayingRecording from "../../Store/Recording/RecordingActions/StopPlayingRecording";

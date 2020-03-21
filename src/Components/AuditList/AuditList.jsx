@@ -10,7 +10,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Audit from "../Audit/Audit";
-import { AuditShape } from "../../shapes";
+import AuditShape from "../../Shapes/AuditShape"
 import ClearAudits from "../../Store/Audit/AuditActions/ClearAudits"
 
 const useStyles = makeStyles({
