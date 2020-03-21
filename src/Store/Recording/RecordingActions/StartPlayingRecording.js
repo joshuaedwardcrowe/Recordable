@@ -1,6 +1,19 @@
-import { RECORDING_COLLECTION, AUDIT_COLLECTION, getSavedCollection } from "../../../Helpers/storageHelper";
+import { RECORDING_COLLECTION, AUDIT_COLLECTION, getSavedCollection, updateSavedCollection } from "../../../Helpers/storageHelper";
+import { CalculateMillisecondTimeDifference } from "../../../Helpers/timeHelper"
 import UnloadTasks from "../../Task/TaskActions/UnloadTasks"
 import SaveTask from "../../Task/TaskActions/SaveTask"
+
+const updateStoppedStatus = recordingId => {
+    const recordingContainer = getSavedCollection(RECORDING_COLLECTION);
+    const existingRecording = recordingContainer.recordings.find(recording => recording.id === recordingId);
+    const otherRecordings = recordingContainer.recordings.filter(x => x.id !== existingRecording.id);
+
+    existingRecording.stopped = false;
+    recordingContainer.recordings = [...otherRecordings, existingRecording]
+
+    updateSavedCollection(RECORDING_COLLECTION, recordingContainer);
+    return existingRecording;
+}
 
 const getRecording = recordingId => {
     const { recordings } = getSavedCollection(RECORDING_COLLECTION);
@@ -12,13 +25,17 @@ const getAudits = auditIds => {
     return audits.filter(audit => auditIds.includes(audit.id));
 }
 
-const applyAudits = (recordingId, audits, dispatch) => {
+const applyAudits = (recording, audits, dispatch) => {
+
+    const differenceInMilliseconds = CalculateMillisecondTimeDifference(recording.started, recording.ended) * 1000;
+    const timeout = differenceInMilliseconds / audits.length;
+
     const interval = setInterval(() => {
 
         // Step 1: Get the current recording in this interval.
-        const recording = getRecording(recordingId);
+        const currentRecording = getRecording(recording.id);
 
-        if (!recording || recording.stopped) {
+        if (!currentRecording || currentRecording.stopped) {
             clearInterval(interval);
             return;
         }
@@ -33,10 +50,13 @@ const applyAudits = (recordingId, audits, dispatch) => {
 
         dispatch(SaveTask(task, fieldName, newValue));
 
-    }, 1000)
+    }, timeout)
 }
 
 export default recordingId => dispatch => {
+
+    // Step 1.2: Ensure the recording isnt stopped.
+    updateStoppedStatus(recordingId);
 
     // Step 1: Get this recording. 
     const recording = getRecording(recordingId);
@@ -50,6 +70,6 @@ export default recordingId => dispatch => {
     // Step 4: If there are audits, we clear redux's Task state so we can see it appear.
     dispatch(UnloadTasks());
 
-    applyAudits(recordingId, audits, dispatch);
+    applyAudits(recording, audits, dispatch);
 
 }

@@ -52,6 +52,23 @@ export class Recording extends Component {
         }, 1000)
     }
 
+    beginCountDown = () => {
+        this.countdownInterval = setInterval(() => {
+            if (!this.state.millisecondCounter) {
+                clearInterval(this.countdownInterval);
+
+                this.setState({
+                    playingRecording: false,
+                    millisecondCounter: CalculateMillisecondTimeDifference(this.props.recording.started, this.props.recording.ended)
+                })
+
+                return;
+            }
+
+            this.setState({ millisecondCounter: this.state.millisecondCounter - 1 });
+        }, 1000)
+    }
+
     getRecordingStatus = () => {
         if (!this.props.recording.ended) return "started";
         if (this.state.playingRecording) return "playing"
@@ -72,14 +89,7 @@ export class Recording extends Component {
     play = () => {
         this.setState({ playingRecording: true });
         this.props.playThisRecording(this.props.recording.id);
-
-        this.countdownInterval = setInterval(() => {
-            if (!this.state.millisecondCounter) {
-                clearInterval(this.countdownInterval);
-            }
-
-            this.setState({ millisecondCounter: this.state.millisecondCounter - 1 });
-        }, 1000)
+        this.beginCountDown();
     }
 
     delete = () => {
