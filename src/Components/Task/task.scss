@@ -15,7 +15,7 @@
         .task-display-left {
             flex-grow: 2;
             padding: 0.5em;
-            padding-left: 0;
+            width: 75%;
 
             p:last-child {
                 opacity: 0.5;
@@ -49,11 +49,12 @@
 
                 input {
                     border: 0;
-                    border-bottom: 2px solid black;
+                    border-bottom: 2px solid #e5e5e5;
                     padding: 0.5em;
                     padding-left: 0;
                     background-color: transparent;
                     font-size: 1em;
+                    width: 400px;
 
                     &:focus {
                         outline: 0;

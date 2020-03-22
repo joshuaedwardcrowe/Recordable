@@ -1,8 +1,11 @@
+body {
+    background-color: #fafafa;
+}
+
 .recordable {
     padding: 1em;
     display: flex;
     flex-direction: row;
-    background-color: #fafafa;
 
     .recordable-left {
         flex-grow: 1;

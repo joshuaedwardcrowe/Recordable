@@ -9,7 +9,7 @@ import DeleteTask from "../../Store/Task/TaskActions/DeleteTask"
 import "./task.scss";
 
 const Task = ({ task, saveThisTask, unprepareThisTask, deleteThisTask }) => {
-    const [editing, setEditing] = useState(!task.saved);
+    const [editing, setEditing] = useState(!task.name && !task.description);
 
     const invertEditing = () => !task.created ? unprepareThisTask(task.id) : setEditing(!editing);
     const handleChange = ({ target: { name, value } }) => saveThisTask(task, name, value)
@@ -18,7 +18,7 @@ const Task = ({ task, saveThisTask, unprepareThisTask, deleteThisTask }) => {
     const renderDisplay = () => (
         <div className="task-display">
             <div className="task-display-left">
-                <p><strong>{task.name}</strong> {task.description}</p>
+                <p><strong>{task.name || "<Missing Name>"}</strong> - {task.description || "<Missing Description>"}</p>
                 <p>Created {FormatToTimestamp(task.created)}</p>
             </div>
             <div className="task-display-right">
