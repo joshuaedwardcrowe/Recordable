@@ -2,11 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ReactList from "react-list";
-import AddIcon from "@material-ui/icons/Add";
 import Task from "../Task/Task";
 import TaskShape from "../../Shapes/TaskShape";
 import PrepareToAddTask from "../../Store/Task/TaskActions/PrepareToAddTask"
-
 import "./taskList.scss";
 
 const TaskList = ({ tasks, addTask }) => (
@@ -17,7 +15,7 @@ const TaskList = ({ tasks, addTask }) => (
             </div>
             <div className="taskList-header-right">
                 <button onClick={addTask}>
-                    <AddIcon />
+                    <span className="material-icons">add</span>
                 </button>
             </div>
         </div>

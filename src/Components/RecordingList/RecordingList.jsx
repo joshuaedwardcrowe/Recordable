@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ReactList from "react-list";
-import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import Recording from "../Recording/Recording";
 import RecordingShape from "../../Shapes/RecordingShape";
 import StartRecording from "../../Store/Recording/RecordingActions/StartRecording"
@@ -18,7 +17,7 @@ const RecordingList = ({ recordings, startNew }) => {
                 </div>
                 <div className="recordingList-header-right">
                     <button onClick={startNew}>
-                        <RadioButtonCheckedIcon />
+                        <span className="material-icons">radio_button_checked</span>
                     </button>
                 </div>
             </div>

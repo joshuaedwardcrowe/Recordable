@@ -1,21 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import StopIcon from "@material-ui/icons/Stop";
-import DeleteIcon from "@material-ui/icons/Delete";
-
 import { FormatToBreakdown, FormatToTimestamp, CalculateSecondTimeDifference, CalculateDateReached } from "../../Helpers/timeHelper"
-
 import RecordingShape from "../../Shapes/RecordingShape";
 import StopRecording from "../../Store/Recording/RecordingActions/StopRecording"
 import StartPlayingRecording from "../../Store/Recording/RecordingActions/StartPlayingRecording";
 import StopPlayingRecording from "../../Store/Recording/RecordingActions/StopPlayingRecording";
 import DeleteRecording from "../../Store/Recording/RecordingActions/DeleteRecording"
-
 import "./recording.scss";
-
 
 export class Recording extends Component {
 
@@ -108,25 +100,25 @@ export class Recording extends Component {
                     // If the recording has no .ended value, it hasn't finished recording.
                     !this.props.recording.ended &&
                     <button onClick={this.stop}>
-                        <StopIcon />
+                        <span className="material-icons">stop</span>
                     </button>
                 }
                 {
                     // If we're not playing the recording, it has not ended and been played in the first place.
                     this.state.playingRecording &&
                     <button onClick={this.stopPlaying}>
-                        <StopIcon />
+                        <span className="material-icons">stop</span>
                     </button>
                 }
                 {
                     // if we're not currently playing the recording and it is not currently still recording, we can play it.
                     !this.state.playingRecording && this.props.recording.ended &&
                     <button onClick={this.play}>
-                        <PlayArrowIcon />
+                        <span className="material-icons">play_arrow</span>
                     </button>
                 }
                 <button onClick={this.delete}>
-                    <DeleteIcon />
+                    <span className="material-icons">delete</span>
                 </button>
             </div>
         </div >

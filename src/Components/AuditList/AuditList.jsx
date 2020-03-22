@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ReactList from "react-list";
-import CloseIcon from "@material-ui/icons/Close"
 import Audit from "../Audit/Audit";
 import AuditShape from "../../Shapes/AuditShape"
 import ClearAudits from "../../Store/Audit/AuditActions/ClearAudits"
@@ -18,7 +17,7 @@ const AuditList = ({ audits, clearTheseAudits }) => {
                 </div>
                 <div className="auditList-header-right">
                     <button onClick={clearTheseAudits}>
-                        <CloseIcon />
+                        <span class="material-icons">close</span>
                     </button>
                 </div>
             </div>
