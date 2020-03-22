@@ -1,5 +1,5 @@
-@mixin iconButton() {
-    padding: 1em;
+@mixin iconButton($padding) {
+    padding: $padding;
     margin: 0;
     background-color: transparent;
     border: 0;

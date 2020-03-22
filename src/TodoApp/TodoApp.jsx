@@ -1,26 +1,14 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/styles"
-
-import Grid from "@material-ui/core/Grid";
-import Divider from "@material-ui/core/Divider";
-
 import Bar from "../Components/Bar/Bar";
 import TaskList from "../Components/TaskList/TaskList";
 import RecordingList from "../Components/RecordingList/RecordingList";
 import AuditList from "../Components/AuditList/AuditList";
-
 import LoadSavedTasks from "../Store/Task/TaskActions/LoadSavedTasks";
 import loadSavedRecordings from "../Store/Recording/RecordingActions/LoadSavedRecordings"
 import LoadSavedAudits from "../Store/Audit/AuditActions/LoadSavedAudits"
-
-const useContainerStyles = makeStyles({
-    root: {
-        padding: "1em",
-        maxHeight: "90vh"
-    }
-})
+import "./todoApp.scss";
 
 export const TodoApp = ({ loadSavedTasks, loadSavedAudits, loadSavedRecordings }) => {
 
@@ -30,22 +18,21 @@ export const TodoApp = ({ loadSavedTasks, loadSavedAudits, loadSavedRecordings }
         loadSavedRecordings()
     }, [loadSavedTasks, loadSavedAudits, loadSavedRecordings])
 
-    const containerClasses = useContainerStyles();
     return (
-        <Fragment>
+        <>
             <Bar>Recordable Todo</Bar>
-            <Grid container className={containerClasses.root} spacing={2}>
-                <Grid item xs={8}>
+            <div className="recordable">
+                <div className="recordable-left">
                     <TaskList />
-                </Grid>
-                <Grid item xs={4}>
+                </div>
+                <div className="recordable-right">
                     <RecordingList />
-                    <Divider />
+                    <div className="recordable-divider"></div>
                     <AuditList />
-                </Grid>
-            </Grid>
-        </Fragment>
-    );
+                </div>
+            </div>
+        </>
+    )
 }
 
 TodoApp.propTypes = {
@@ -68,6 +55,5 @@ const mapDispatchToProps = dispatch => ({
     loadSavedAudits: () => dispatch(LoadSavedAudits())
 
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoApp);

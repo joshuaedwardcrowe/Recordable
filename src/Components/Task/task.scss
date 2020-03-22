@@ -1,4 +1,5 @@
 @import "../buttons";
+@import "../container";
 
 .task {
     
@@ -9,10 +10,12 @@
 
     .task-display {
         display: flex;
+        @include container(white);
 
         .task-display-left {
             flex-grow: 2;
             padding: 0.5em;
+            padding-left: 0;
 
             p:last-child {
                 opacity: 0.5;
@@ -24,13 +27,14 @@
             text-align: right;
 
             button {
-                @include iconButton;
+                @include iconButton(1em)
             }
         }
     }
 
     .task-editing {
         display: flex;
+        @include container(white);
 
         .task-editing-left {
             flex-grow: 2;
@@ -49,7 +53,6 @@
                     padding: 0.5em;
                     padding-left: 0;
                     background-color: transparent;
-                    width: 20vw;
                     font-size: 1em;
 
                     &:focus {
@@ -64,7 +67,7 @@
             text-align: right;
             
             button {
-                @include iconButton;
+                @include iconButton(1em)
             }
         }
     }

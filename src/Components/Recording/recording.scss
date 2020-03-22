@@ -31,7 +31,7 @@
         text-align: right;
 
         button {
-            @include iconButton();
+            @include iconButton(1em);
         }
     }
 }

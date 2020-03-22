@@ -1,0 +1,20 @@
+.recordable {
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+
+    .recordable-left {
+        flex-grow: 1;
+        margin-right: 0.5em;
+    }
+
+    .recordable-right {
+        flex-grow: 0;
+        width: 35vw;
+        margin-left: 0.5em;
+    }
+
+    .recordable-divider {
+        padding: 0.5em;
+    }
+}

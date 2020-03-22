@@ -6,13 +6,14 @@
 
     .taskList-header {
         display: flex;
+        padding: 0.5em;
+        padding-left: 0;
 
         .taskList-header-left {
             flex-grow: 2;
 
             p {
                 @include header(1.5em);
-                margin: .5em;
 
                 .taskList-count {
                     background-color: white;
@@ -32,7 +33,7 @@
             text-align: right;
 
             button {
-                @include iconButton;
+                @include iconButton(0)
             }
         }
     }

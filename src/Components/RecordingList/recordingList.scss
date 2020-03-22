@@ -7,13 +7,14 @@
 
     .recordingList-header {
         display: flex;
+        padding: 0.5em;
+        padding-left: 0;
 
         .recordingList-header-left {
             flex-grow: 2;
 
             p {
                 @include header(1.5em);
-                margin: .5em;
 
                 .recordingList-count {
                     background-color: white;
@@ -33,13 +34,13 @@
             text-align: right;
 
             button {
-                @include iconButton;
+                @include iconButton(0);
             }
         }
     }
 
     .recordingList-container {
-        @include container(white)
+        @include container(white);
 
         /* Enough space for 3x recording listings. */
         height: calc(54px * 3); 
